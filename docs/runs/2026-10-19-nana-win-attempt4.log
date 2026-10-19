@@ -1,0 +1,653 @@
+08:25:57 === nana run: craft ===
+cards in the profile before: 0, truth 1130
+  毒素: level=True picked=True -> '毒素'
+  流血: level=True picked=True -> '流血'
+  易伤: level=True picked=True -> '易伤'
+  灼烧: level=True picked=True -> '灼烧'
+  失能: level=True picked=True -> '失能'
+  遗忘: level=True picked=True -> '遗忘'
+  腐朽: level=True picked=True -> '腐朽'
+  混乱: level=True picked=True -> '混乱'
+  无力: level=True picked=True -> '无力'
+  失格: level=True picked=True -> '失格'
+preview: 0 厄运盛宴 使用后:对自己，添加999层的毒素，添加999层的流血，添加999层的易伤，添加999层的灼烧，添加999层的失能，添加999层的遗忘，添加999层的腐朽，添加999层的混乱，添加999层的无力，添加999层的失格。
+cards in the profile after: 1, truth 1080
+08:27:33 === nana run: to the first rest room ===
+08:27:33 game speed x2
+08:27:33 act hub_start_game: ok: Clicked the start-game sign in the hub.
+08:27:37 act mode_choice_classic: ok: Clicked: 经典肉鸽 / 运营构筑流派 / 挑战更高难度 / 可获取真理之晶
+08:27:40 entry: entry_career_1
+08:27:40 act entry_career_1: ok: Chose the career 奈奈.
+08:27:41 entry: entry_partner_1
+08:27:41 act entry_partner_1: ok: Chose the partner 匣上黑猫.
+08:27:42 entry: entry_pack_on_cardpack_7
+08:27:42 act entry_pack_on_cardpack_7: ok: Enabled 蛇自阴影中袭来 (packs 6→7; saved when the screen closes).
+08:27:43 act game_entry_start: ok: Started run from GameEntryUI.
+08:27:46 act map_place_7: ok: Placed 一息安隅 into node 0; 3 empty left.
+08:27:47 act map_place_4: ok: Placed 鼹鼠 10 84 盗贼 into node 1; 2 empty left.
+08:27:48 act map_place_1: ok: Placed 旅行商人 into node 2; 1 empty left.
+08:27:49 act map_place_4: ok: Placed 魔女手记 into node 3; 0 empty left.
+08:27:50 act map_continue: ok: Continued from map selection.
+08:27:53 event 传奇揭幕: 天使的血脉宗谱资料 (获得3个天使祝福) of 3 options
+08:27:53 act event_option_0: ok: Chose: 天使的血脉宗谱资料 [获得3个天使祝福]
+08:27:55 act event_option_1: ok: Chose: 结束事件 [获得3个天使祝福]
+08:27:57 paused at rest (windows ['ChatUI', 'CaptionUI', 'TopBarUI'])
+08:27:57 === nana run: safe box ===
+deck (min/now/max): (12, 15, 23) -> (12, 16, 23)
+gold: 150 -> 650
+phase now: rest | run: 16 cards in the deck
+08:28:10 === nana run: the rest of the run ===
+08:28:10 game speed x2
+08:28:11 act rest_eat_0: ok: Ate 大汉堡: HP 85 -> 97, max HP 85 -> 97.
+08:28:11 act rest_eat_0: ok: Ate 蛋糕: HP 97 -> 105, max HP 97 -> 105.
+08:28:12 act rest_eat_0: ok: Ate 披萨: HP 105 -> 113, max HP 105 -> 113.
+08:28:13 act rest_eat_0: ok: Ate 全鸡: HP 113 -> 121, max HP 113 -> 121.
+08:28:14 act rest_eat_0: ok: Ate 大水果篮: HP 121 -> 125, max HP 121 -> 125.
+08:28:15 act rest_eat_0: ok: Ate 鸡腿: HP 125 -> 129, max HP 125 -> 129.
+08:28:16 act rest_leave: ok: Leaving the rest room.
+08:28:19 act map_continue: ok: Continued from map selection.
+08:28:22 act rest_eat_0: ok: Ate 大汉堡: HP 129 -> 141, max HP 129 -> 141.
+08:28:23 act rest_eat_0: ok: Ate 蛋糕: HP 141 -> 149, max HP 141 -> 149.
+08:28:24 act rest_eat_0: ok: Ate 披萨: HP 149 -> 157, max HP 149 -> 157.
+08:28:25 act rest_eat_0: ok: Ate 全鸡: HP 157 -> 165, max HP 157 -> 165.
+08:28:25 act rest_eat_0: ok: Ate 大水果篮: HP 165 -> 169, max HP 165 -> 169.
+08:28:26 act rest_eat_0: ok: Ate 鸡腿: HP 169 -> 173, max HP 169 -> 173.
+08:28:27 act rest_leave: ok: Leaving the rest room.
+08:28:30 act map_continue: ok: Continued from map selection.
+08:28:34 fight start: hp 173/173 block 0 buffs 匣上黑猫×1 重生×70 自愈×3, incoming 0, enemies 鼹鼠 93 [摸金术 偷窃对方15点金币。(2), 窃取 偷窃对方10点金币。(2)]
+08:28:34 feast: playing 厄运盛宴 (the skill is ready)
+08:28:34 play 厄运盛宴: played: Card played.  hand 4→3  power 3→3  鼹鼠e0 HP 93→93
+08:28:35 eat: skill_use_0_self
+08:28:35 act skill_use_0_self: ok: Used 可食用厄运 on yourself: cooldown 0→5.
+08:28:36 skill: skill_use_1
+08:28:36 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:28:37 play 罐装火元 -> enemy 0: played: Card played.  hand 3→2  power 3→2  鼹鼠e0 HP 93→59
+08:28:38 play 无锋重刃 -> enemy 0: played: Card played.  hand 2→1  power 2→1  鼹鼠e0 HP 59→27
+08:28:39 play 法杖敲头 -> enemy 0: played: Card played.  hand 1→0  power 1→0  鼹鼠e0 HP 27→-2
+08:28:40 fight won (1)
+08:28:41 act battle_open_rewards: ok: Opened the battle rewards.
+08:28:42 act reward_claim_0: ok: Claimed: 金钱
+08:28:43 act reward_claim_0: ok: Claimed: 卡牌
+08:28:44 card: 复仇链枪 (rarity 2, cost 2): 对随机目标造成自身已损失生命50%的伤害。
+焚毁
+08:28:44 act card_choice_pick_0: ok: Picked: 复仇链枪
+08:28:47 deck: 1 spare card(s), deck 16/23: opening the deck window
+08:28:47 act deck_open: ok: Opened the deck window.
+08:28:48 act deck_equip_16: ok: equip: 复仇链枪 (deck 16→17, backpack 1→0)
+08:28:49 act deck_close: ok: Closed the deck window.
+08:28:49 act reward_claim_0: ok: Claimed: 祝福
+08:28:50 act blessing_pick_0: ok: Took blessing: 教皇:你获得的金币额外增加10% | 精神+2    感知+2 | 最大生命值+5
+08:28:53 act reward_claim_0: ok: Claimed: 遗物
+08:28:54 act reward_close: ok: Closed the reward screen.
+08:28:58 act map_continue: ok: Continued from map selection.
+08:29:01 shop (824 gold): shop_buy_1
+08:29:01 act shop_buy_1: ok: Bought 铭刻分针 for 197 gold (gold 824→627); spare relics 0→1.
+08:29:02 shop (627 gold): shop_buy_1
+08:29:02 act shop_buy_1: ok: Bought 第一元素 for 237 gold (gold 627→390); spare relics 0→1.
+08:29:02 shop (390 gold): shop_buy_0
+08:29:02 act shop_buy_0: ok: Bought 曲针 for 248 gold (gold 390→142); spare relics 0→1.
+08:29:03 shop (142 gold): shop_buy_2
+08:29:03 act shop_buy_2: ok: Bought 腐化黑星 for 61 gold (gold 142→81); backpack 0→1.
+08:29:04 shop (81 gold): shop_buy_1
+08:29:04 act shop_buy_1: ok: Bought 雷枪 for 69 gold (gold 81→12); backpack 1→2.
+08:29:04 shop (12 gold): shop_leave
+08:29:04   shop items: Card 生命回溯 87g no: costs 87 gold (have 12)
+08:29:04 act shop_leave: ok: Left the ShopUI.
+08:29:07 deck: 2 spare card(s), deck 17/27: opening the deck window
+08:29:07 act deck_open: ok: Opened the deck window.
+08:29:08 act deck_equip_17: ok: equip: 雷枪 (deck 17→18, backpack 2→1)
+08:29:08 act deck_equip_18: ok: equip: 腐化黑星 (deck 18→19, backpack 1→0)
+08:29:09 act deck_close: ok: Closed the deck window.
+08:29:10 act map_continue: ok: Continued from map selection.
+08:29:13 event 模拟考核: 参与模拟 (进入一场有额外奖励的模拟战斗) of 2 options
+08:29:13 act event_option_0: ok: Chose: 参与模拟 [进入一场有额外奖励的模拟战斗]
+08:29:15 act event_option_1: ok: Chose: 结束事件 [进入一场有额外奖励的模拟战斗]
+08:29:17 fight start: hp 127/312 block 0 buffs 厄运魔能×67 匣上黑猫×1 重生×70 蓄势×3 自愈×3, incoming 0, enemies 幽怨之心 142 [无力化：一阶 赋予对方2层无力。(4), 魔力屏障 增加8护盾。(0)]
+08:29:17 feast: playing 厄运盛宴 (the skill is ready)
+08:29:17 play 厄运盛宴: played: Card played.  hand 4→3  power 3→3  幽怨之心e0 HP 142→142
+08:29:18 eat: skill_use_0_self
+08:29:18 act skill_use_0_self: ok: Used 可食用厄运 on yourself: cooldown 0→5.
+08:29:19 skill: skill_use_1
+08:29:19 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:29:20 play 海洋之梦 -> enemy 0: played: Card played.  hand 3→2  power 3→3  幽怨之心e0 HP 142→101
+08:29:20 play 海洋之梦 -> enemy 0: played: Card played.  hand 3→2  power 3→3  幽怨之心e0 HP 101→58
+08:29:21 play 冥想针剂 -> enemy 0: played: Card played.  hand 3→2  power 3→3  幽怨之心e0 HP 58→12
+08:29:22 play 无锋重刃 -> enemy 0: played: Card played.  hand 4→3  power 3→2  幽怨之心e0 HP 12→-75
+08:29:24 fight won (2)
+08:29:24 act battle_open_rewards: ok: Opened the battle rewards.
+08:29:25 act reward_claim_0: ok: Claimed: 金钱
+08:29:26 act reward_claim_0: ok: Claimed: 卡牌
+08:29:28 card: 超越次元 (rarity 3, cost 18): 将所有牌洗入抽牌堆，抽5张牌，回复所有能量；此卡魔能消耗降低x点(x为神启层数)
+唤神 焚毁
+08:29:28 act card_choice_pick_0: ok: Picked: 超越次元
+08:29:30 deck: 1 spare card(s), deck 19/27: opening the deck window
+08:29:30 act deck_open: ok: Opened the deck window.
+08:29:31 act deck_equip_19: ok: equip: 超越次元 (deck 19→20, backpack 1→0)
+08:29:32 act deck_close: ok: Closed the deck window.
+08:29:33 act reward_claim_0: ok: Claimed: 卡牌
+08:29:34 card: 元素护盾 (rarity 2, cost 1): 获得2层元素,获得双倍元素层数点护盾。
+08:29:34 act card_choice_pick_0: ok: Picked: 元素护盾
+08:29:37 act reward_claim_0: ok: Claimed: 卡牌
+08:29:39 card: 加速术 (rarity 3, cost 2): 获得1层不屈。
+焚毁
+08:29:39 act card_choice_pick_1: ok: Picked: 加速术
+08:29:41 act reward_claim_0: ok: Claimed: 遗物
+08:29:42 act reward_close: ok: Closed the reward screen.
+08:29:46 act map_continue: ok: Continued from map selection.
+08:29:50 fight start: hp 235/580 block 0 buffs 厄运魔能×134 匣上黑猫×1 重生×70 蓄势×3 坚毅×1 自愈×3, incoming 0, enemies 鼹鼠 141 [摸金术 偷窃对方15点金币。(2), 窃取 偷窃对方10点金币。(2)]
+08:29:50 skill: skill_use_1
+08:29:51 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:29:52 play 海洋之梦 -> enemy 0: played: Card played.  hand 4→4  power 3→3  鼹鼠e0 HP 141→84
+08:29:52 play 冥想针剂 -> enemy 0: played: Card played.  hand 4→3  power 3→3  鼹鼠e0 HP 84→25
+08:29:53 play 海洋之梦 -> enemy 0: played: Card played.  hand 5→4  power 3→3  鼹鼠e0 HP 25→-37
+08:29:53 fight won (3)
+08:29:53 act battle_open_rewards: ok: Opened the battle rewards.
+08:29:54 act reward_claim_0: ok: Claimed: 金钱
+08:29:55 act reward_claim_0: ok: Claimed: 卡牌
+08:29:57 card: 苦痛转移 (rarity 2, cost 1): 消耗掉自身所有流血层数，每消耗一层，给予全体敌人三层流血。
+08:29:57 act card_choice_pick_0: ok: Picked: 苦痛转移
+08:30:00 act reward_claim_0: ok: Claimed: 卡牌
+08:30:01 card: 魔能榨取 (rarity 3, cost 0): 获得3点魔能,获得2层失能。
+08:30:01 act card_choice_pick_0: ok: Picked: 魔能榨取
+08:30:04 act reward_claim_0: ok: Claimed: 遗物
+08:30:05 act reward_close: ok: Closed the reward screen.
+08:30:07 act map_place_7: ok: Placed 一息安隅 into node 0; 3 empty left.
+08:30:08 act map_place_6: ok: Placed 清理 7 93 魔女加护 半天使 成群结队 into node 1; 2 empty left.
+08:30:09 act map_place_4: ok: Placed 旅行商人 into node 2; 1 empty left.
+08:30:10 act map_place_0: ok: Placed 魔女手记 into node 3; 0 empty left.
+08:30:11 act map_continue: ok: Continued from map selection.
+08:30:15 event 踏上旅途: 前往魔王城 (开启魔王线) of 3 options
+08:30:15 act event_option_0: ok: Chose: 前往魔王城 [开启魔王线]
+08:30:16 act event_option_1: ok: Chose: 结束事件 [开启魔王线]
+08:30:20 act map_continue: refused: map_continue was issued 8.9 s ago and the game is still changing scene; wait for the phase to change (`witchctl wait`) instead of repeating it
+08:30:24 act map_continue: ok: Continued from map selection.
+08:30:27 act rest_eat_0: ok: Ate 大汉堡: HP 235 -> 266, max HP 580 -> 592.
+08:30:28 act rest_eat_0: ok: Ate 蛋糕: HP 266 -> 289, max HP 592 -> 600.
+08:30:28 act rest_eat_0: ok: Ate 披萨: HP 289 -> 319, max HP 600 -> 608.
+08:30:29 act rest_eat_0: ok: Ate 全鸡: HP 319 -> 341, max HP 608 -> 616.
+08:30:30 act rest_eat_0: ok: Ate 大水果篮: HP 341 -> 356, max HP 616 -> 620.
+08:30:31 act rest_eat_0: ok: Ate 鸡腿: HP 356 -> 382, max HP 620 -> 624.
+08:30:32 act rest_leave: ok: Leaving the rest room.
+08:30:35 act map_continue: ok: Continued from map selection.
+08:30:40 fight start: hp 305/758 block 0 buffs 厄运魔能×134 匣上黑猫×1 重生×70 蓄势×3 坚毅×1 鬼化×1 锋锐×2 自愈×3, incoming 15, enemies 魔女教教徒 104 [窃取 偷窃对方10点金币。(2), 摸金术 偷窃对方15点金币。(2), 蝶翼复切 造成2*5伤害。(1)]; 天眷者 102 [蓄势 正在进行蓄力。(2), 蝶翼复切 造成1*5伤害。(1)]
+08:30:40 skill: skill_use_1
+08:30:40 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:30:41 play 生长 -> enemy 1: played: Card played.  hand 4→3  power 3→3  天眷者e1 HP 102→14
+08:30:41 play 法杖敲头 -> enemy 1: played: Card played.  hand 3→2  power 3→2  天眷者e1 HP 14→-113
+08:30:43 play 雷枪 -> enemy 0: played: Card played.  hand 2→1  power 2→1  魔女教教徒e0 HP 52→52
+08:30:44 play 炽焰新星 -> enemy 0: played: Card played.  hand 1→0  power 1→0  魔女教教徒e0 HP 52→52
+08:30:45 end turn (hp 321, block 0, rebirth 70, draw 17, last turn cost 0, incoming 10, enemies [('魔女教教徒', 52)])
+08:30:52 play 元素护盾 -> enemy 0: played: Card played.  hand 4→3  power 3→2  魔女教教徒e0 HP 49→49
+08:30:52 play 魔能屏障 -> enemy 0: played: Card played.  hand 3→2  power 2→1  魔女教教徒e0 HP 49→49
+08:30:52 play 海洋之梦 -> enemy 0: played: Card played.  hand 2→1  power 1→1  魔女教教徒e0 HP 49→49
+08:30:53 end turn (hp 313, block 18, rebirth 70, draw 13, last turn cost 20, incoming 10, enemies [('魔女教教徒', 49)])
+08:31:00 skill: skill_use_1
+08:31:00 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:31:01 play 冥想针剂 -> enemy 0: played: Card played.  hand 4→3  power 3→3  魔女教教徒e0 HP 23→-81
+08:31:01 fight won (4)
+08:31:01 act battle_open_rewards: ok: Opened the battle rewards.
+08:31:02 act reward_claim_0: ok: Claimed: 金钱
+08:31:03 act reward_claim_0: ok: Claimed: 卡牌
+08:31:05 card: 公爵绶带 (rarity 3, cost 0): 消耗全体所有流血层数，每消耗一层，自身恢复二点生命,并获得等量护盾。
+焚毁 保留
+08:31:05 act card_choice_pick_1: ok: Picked: 公爵绶带
+08:31:08 act reward_claim_0: ok: Claimed: 卡牌
+08:31:09 card: 黄金时代 (rarity 2, cost 2): 获得6点护盾，结束你的回合。获得60金币。
+焚毁
+08:31:09 act card_choice_pick_0: ok: Picked: 黄金时代
+08:31:12 act reward_claim_0: ok: Claimed: 遗物
+08:31:13 act reward_close: ok: Closed the reward screen.
+08:31:17 act map_continue: ok: Continued from map selection.
+08:31:20 shop (1336 gold): shop_leave
+08:31:20   shop items: Relic 血嗣契约 194g ok ⚠; Relic 细高跟鞋 231g ok ⚠; Relic 龙之血 250g ok ⚠; Card 血爆术 89g no: the backpack is full (6/6): put a card i; Card 梦幻泡影 77g no: the backpack is full (6/6): put a card i; Card 元素护盾 85g no: the backpack is full (6/6): put a card i
+08:31:20 act shop_leave: ok: Left the ShopUI.
+08:31:24 act map_continue: refused: map_continue was issued 7.2 s ago and the game is still changing scene; wait for the phase to change (`witchctl wait`) instead of repeating it
+08:31:27 act map_continue: ok: Continued from map selection.
+08:31:30 event 破败神像: 祈求财富 (获得100金币) of 2 options
+08:31:31 act event_option_0: ok: Chose: 祈求财富 [获得100金币]
+08:31:32 act event_option_1: ok: Chose: 结束事件 [获得100金币]
+08:31:34 event 黑潮-序幕: 前去疗伤…… (你沐浴在圣泉中，疲惫一扫而空。(生命+30%)) of 1 options
+08:31:35 act event_option_0: ok: Chose: 前去疗伤…… [你沐浴在圣泉中，疲惫一扫而空。(生命+30%)]
+08:31:36 event 黑潮-序幕: 驻足购买 (“时间就是金钱”我的朋友。) of 2 options
+08:31:36 act event_option_0: ok: Chose: 驻足购买 [“时间就是金钱”我的朋友。]
+08:31:38 shop (1446 gold): shop_leave
+08:31:38   shop items: Relic 点金手 298g ok ⚠; Relic 追忆 626g ok ⚠; Relic 振奋之息 226g ok ⚠; Card 罐装火元 103g no: the backpack is full (6/6): put a card i; Card 元素升华 192g no: the backpack is full (6/6): put a card i; Card 终结一击 82g no: the backpack is full (6/6): put a card i
+08:31:38 act shop_leave: ok: Left the ShopUI.
+08:31:43 act map_continue: ok: Continued from map selection.
+08:31:47 fight start: hp 359/892 block 0 buffs 厄运魔能×134 匣上黑猫×1 重生×70 蓄势×3 坚毅×1 鬼化×1 锋锐×2 自愈×3, incoming 0, enemies 熔火圣骸 672 [蓄势 正在进行蓄力。(2), 蹈火之域：二阶 给与对方4层灼烧。(3)]
+08:31:47 feast: playing 厄运盛宴 (the skill is ready)
+08:31:47 play 厄运盛宴: played: Card played.  hand 4→3  power 3→3  熔火圣骸e0 HP 672→672
+08:31:48 eat: skill_use_0_self
+08:31:48 act skill_use_0_self: ok: Used 可食用厄运 on yourself: cooldown 0→5.
+08:31:49 skill: skill_use_1
+08:31:49 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:31:50 play 绽放 -> enemy 0: played: Card played.  hand 3→2  power 3→2  熔火圣骸e0 HP 672→625
+08:31:51 play 魔能屏障 -> enemy 0: played: Card played.  hand 2→1  power 2→1  熔火圣骸e0 HP 625→591
+08:31:51 play 无锋重刃 -> enemy 0: played: Card played.  hand 1→0  power 1→0  熔火圣骸e0 HP 591→544
+08:31:53 end turn (hp 777, block 46, rebirth 70, draw 17, last turn cost 0, incoming 0, enemies [('熔火圣骸', 544)])
+08:31:59 play 复仇链枪 -> enemy 0: played: Card played.  hand 4→3  power 3→1  熔火圣骸e0 HP 538→299
+08:32:00 play 元素护盾 -> enemy 0: played: Card played.  hand 3→2  power 1→0  熔火圣骸e0 HP 299→299
+08:32:00 end turn (hp 746, block 56, rebirth 70, draw 14, last turn cost 85, incoming 0, enemies [('熔火圣骸', 299)])
+08:32:06 skill: skill_use_1
+08:32:06 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:32:07 play 炽焰新星 -> enemy 0: played: Card played.  hand 4→3  power 3→2  熔火圣骸e0 HP 294→266
+08:32:08 play 魔能屏障 -> enemy 0: played: Card played.  hand 3→2  power 2→1  熔火圣骸e0 HP 266→224
+08:32:09 play 魔能屏障 -> enemy 0: played: Card played.  hand 2→1  power 1→0  熔火圣骸e0 HP 224→179
+08:32:09 end turn (hp 702, block 148, rebirth 70, draw 11, last turn cost 112, incoming 0, enemies [('熔火圣骸', 179)])
+08:32:15 play 海洋之梦 -> enemy 0: played: Card played.  hand 4→3  power 3→3  熔火圣骸e0 HP 166→166
+08:32:15 play 冥想针剂 -> enemy 0: played: Card played.  hand 4→3  power 3→3  熔火圣骸e0 HP 166→166
+08:32:16 play 海洋之梦 -> enemy 0: played: Card played.  hand 5→4  power 3→3  熔火圣骸e0 HP 166→166
+08:32:17 play 炽焰新星 -> enemy 0: played: Card played.  hand 5→4  power 3→2  熔火圣骸e0 HP 166→150
+08:32:18 play 冥想针剂 -> enemy 0: played: Card played.  hand 4→3  power 2→2  熔火圣骸e0 HP 150→150
+08:32:19 play 法杖敲头 -> enemy 0: played: Card played.  hand 5→4  power 2→1  熔火圣骸e0 HP 150→135
+08:32:20 play 法杖敲头 -> enemy 0: played: Card played.  hand 4→3  power 1→0  熔火圣骸e0 HP 135→119
+08:32:22 end turn (hp 659, block 148, rebirth 70, draw 2, last turn cost 219, incoming 0, enemies [('熔火圣骸', 119)])
+08:32:27 skill: skill_use_1
+08:32:27 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:32:28 play 魔能屏障 -> enemy 0: played: Card played.  hand 5→4  power 3→2  熔火圣骸e0 HP 110→31
+08:32:29 play 雷枪 -> enemy 0: played: Card played.  hand 4→3  power 2→1  熔火圣骸e0 HP 31→-78
+08:32:30 fight won (5)
+08:32:30 act battle_open_rewards: ok: Opened the battle rewards.
+08:32:32 act reward_claim_0: ok: Claimed: 金钱
+08:32:33 act reward_claim_0: ok: Claimed: 卡牌
+08:32:34 act card_choice_skip: ok: Skipped the card choice.
+08:32:37 act reward_claim_0: ok: Claimed: 卡牌
+08:32:39 act card_choice_skip: ok: Skipped the card choice.
+08:32:42 act reward_claim_0: ok: Claimed: 遗物
+08:32:43 act reward_claim_0: ok: Claimed: 祝福
+08:32:44 act blessing_pick_0: ok: Took blessing: 盾卫:战斗开始时你获得1层强韧 | 天使:战斗开始时获得1层自愈 | 命运之轮:战斗开始时获得1层循环 | 幸运+2    选择本源各+2
+08:32:46 act reward_close: ok: Closed the reward screen.
+08:32:47 item: 新物品 / 思考者 / 精神大于等于10时,战斗开始时额外获得1点魔能 / 你的学识贯通古今。 / 太棒了
+08:32:47 act item_reveal_confirm: ok: Clicked: 太棒了
+08:32:49 act map_place_7: ok: Placed 一息安隅 into node 0; 3 empty left.
+08:32:50 act map_place_1: ok: Placed 黑桃骑士 18 472 黑桃 into node 1; 2 empty left.
+08:32:51 act map_place_2: ok: Placed 旅行商人 into node 2; 1 empty left.
+08:32:52 act map_place_3: ok: Placed 魔女手记 into node 3; 0 empty left.
+08:32:53 act map_continue: ok: Continued from map selection.
+08:32:56 event 王城庆典: 接入影魔的集群网络 (随机获得1件3阶遗物和1张3阶卡牌) of 2 options
+08:32:56 act event_option_1: ok: Chose: 接入影魔的集群网络 [随机获得1件3阶遗物和1张3阶卡牌]
+08:32:58 event 王城庆典: 结束事件 (结束事件) of 1 options
+08:32:58 act event_option_0: ok: Chose: 结束事件 [结束事件]
+08:33:00 act event_option_1: ok: Chose: 结束事件 [结束事件]
+08:33:04 act map_continue: ok: Continued from map selection.
+08:33:07 act rest_eat_0: ok: Ate 大汉堡: HP 562 -> 612, max HP 1093 -> 1105.
+08:33:08 act rest_eat_0: ok: Ate 蛋糕: HP 612 -> 649, max HP 1105 -> 1113.
+08:33:09 act rest_eat_0: ok: Ate 披萨: HP 649 -> 700, max HP 1113 -> 1121.
+08:33:10 act rest_eat_0: ok: Ate 全鸡: HP 700 -> 734, max HP 1121 -> 1129.
+08:33:11 act rest_eat_0: ok: Ate 大水果篮: HP 734 -> 757, max HP 1129 -> 1133.
+08:33:11 act rest_eat_0: ok: Ate 鸡腿: HP 757 -> 803, max HP 1133 -> 1137.
+08:33:12 act rest_leave: ok: Leaving the rest room.
+08:33:16 act map_continue: ok: Continued from map selection.
+08:33:20 fight start: hp 538/1338 block 0 buffs 厄运魔能×201 匣上黑猫×1 血河×3 重生×70 蓄势×3 坚毅×1 鬼化×1 锋锐×2 自愈×4 强韧×1 循环×1, incoming 0, enemies 黑桃骑士 536 [蹈火之域：二阶 给与对方4层灼烧。(3), 魔力屏障 增加0护盾。(0), 断脊 造成17伤害。(0)]
+08:33:20 skill: skill_use_1
+08:33:20 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:33:21 play 炽焰新星 -> enemy 0: played: Card played.  hand 4→3  power 4→3  黑桃骑士e0 HP 536→274
+08:33:22 play 无锋重刃 -> enemy 0: played: Card played.  hand 3→2  power 3→2  黑桃骑士e0 HP 274→12
+08:33:24 play 魔能屏障 -> enemy 0: played: Card played.  hand 2→1  power 2→1  黑桃骑士e0 HP 12→-192
+08:33:24 fight won (6)
+08:33:24 act battle_open_rewards: ok: Opened the battle rewards.
+08:33:25 act reward_claim_0: ok: Claimed: 金钱
+08:33:26 act reward_claim_0: ok: Claimed: 卡牌
+08:33:28 card: 纯化祷言 (rarity 3, cost 1): 焚毁手卡中所有非唤神牌,若神启小于八层,获得3层流血。
+唤神 焚毁
+08:33:28 act card_choice_pick_2: ok: Picked: 纯化祷言
+08:33:31 act reward_claim_0: ok: Claimed: 卡牌
+08:33:32 act card_choice_skip: ok: Skipped the card choice.
+08:33:35 act reward_close: ok: Closed the reward screen.
+08:33:39 act map_continue: ok: Continued from map selection.
+08:33:42 shop (2867 gold): shop_leave
+08:33:42   shop items: Relic 补给凭证 522g ok ⚠; Relic 战车造像 198g ok ⚠; Relic 《风暴》 234g ok ⚠; Card 一瞬千刃 86g no: the backpack is full (7/7): put a card i; Card 透骨钉 83g no: the backpack is full (7/7): put a card i; Card 盛宴 66g no: the backpack is full (7/7): put a card i
+08:33:42 act shop_leave: ok: Left the ShopUI.
+08:33:46 act map_continue: refused: map_continue was issued 6.8 s ago and the game is still changing scene; wait for the phase to change (`witchctl wait`) instead of repeating it
+08:33:49 act map_continue: refused: map_continue was issued 10.0 s ago and the game is still changing scene; wait for the phase to change (`witchctl wait`) instead of repeating it
+08:33:52 act map_continue: ok: Continued from map selection.
+08:33:55 event 死亡轮盘: 扣动机关（若击发，魔女血量变成1） (未击发时，前2次依次获得40,80金币，第3,4,5次赠予随机遗物和100金币) of 2 options
+08:33:55 act event_option_0: ok: Chose: 扣动机关（若击发，魔女血量变成1） [未击发时，前2次依次获得40,80金币，第3,4,5次赠予随机遗物和100金币]
+08:33:57 event 死亡轮盘: 扣动机关（若击发，魔女血量变成1） (未击发时，前2次依次获得40,80金币，第3,4,5次赠予随机遗物和100金币) of 2 options
+08:33:57 act event_option_0: ok: Chose: 扣动机关（若击发，魔女血量变成1） [未击发时，前2次依次获得40,80金币，第3,4,5次赠予随机遗物和100金币]
+08:33:58 event 死亡轮盘: 扣动机关（若击发，魔女血量变成1） (未击发时，前2次依次获得40,80金币，第3,4,5次赠予随机遗物和100金币) of 2 options
+08:33:59 act event_option_0: ok: Chose: 扣动机关（若击发，魔女血量变成1） [未击发时，前2次依次获得40,80金币，第3,4,5次赠予随机遗物和100金币]
+08:34:00 event 死亡轮盘: 扣动机关（若击发，魔女血量变成1） (未击发时，前2次依次获得40,80金币，第3,4,5次赠予随机遗物和100金币) of 2 options
+08:34:00 act event_option_0: ok: Chose: 扣动机关（若击发，魔女血量变成1） [未击发时，前2次依次获得40,80金币，第3,4,5次赠予随机遗物和100金币]
+08:34:02 event 死亡轮盘: 扣动机关（若击发，魔女血量变成1） (未击发时，前2次依次获得40,80金币，第3,4,5次赠予随机遗物和100金币) of 2 options
+08:34:02 act event_option_0: ok: Chose: 扣动机关（若击发，魔女血量变成1） [未击发时，前2次依次获得40,80金币，第3,4,5次赠予随机遗物和100金币]
+08:34:04 act event_option_1: ok: Chose: 结束事件 [未击发时，前2次依次获得40,80金币，第3,4,5次赠予随机遗物和100金币]
+08:34:08 act map_continue: ok: Continued from map selection.
+08:34:12 fight start: hp 618/1539 block 0 buffs 厄运魔能×201 匣上黑猫×1 重生×70 蓄势×3 坚毅×1 鬼化×1 锋锐×2 自愈×4 强韧×1 循环×1, incoming 0, enemies K 819 [混沌诅咒 随机在魔女牌堆塞入1张诅咒牌。(0), 腐渊之息：二阶 给与对方3层毒素。(1)]
+08:34:12 skill: skill_use_1
+08:34:12 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:34:13 play 复仇链枪 -> enemy 0: played: Card played.  hand 4→3  power 4→2  Ke0 HP 819→-233
+08:34:15 fight won (7)
+08:34:15 act battle_open_rewards: ok: Opened the battle rewards.
+08:34:16 act reward_claim_0: ok: Claimed: 金钱
+08:34:17 act reward_claim_0: ok: Claimed: 卡牌
+08:34:19 act card_choice_skip: ok: Skipped the card choice.
+08:34:22 act reward_claim_0: ok: Claimed: 卡牌
+08:34:24 act card_choice_skip: ok: Skipped the card choice.
+08:34:26 act reward_claim_0: ok: Claimed: 遗物
+08:34:27 act reward_close: ok: Closed the reward screen.
+08:34:29 act map_place_7: ok: Placed 一息安隅 into node 0; 3 empty left.
+08:34:30 act map_place_0: ok: Placed 红心女仆 36 958 into node 1; 2 empty left.
+08:34:31 act map_place_1: ok: Placed 旅行商人 into node 2; 1 empty left.
+08:34:32 act map_place_3: ok: Placed 魔女手记 into node 3; 0 empty left.
+08:34:33 act map_continue: ok: Continued from map selection.
+08:34:37 event 失乐园: 抽取“隐世之神” (获得遗物三倍数量的祝福) of 2 options
+08:34:37 act event_option_1: ok: Chose: 抽取“隐世之神” [获得遗物三倍数量的祝福]
+08:34:38 act event_option_1: ok: Chose: 结束事件 [获得遗物三倍数量的祝福]
+08:34:40 item: 新物品 / 猜忌之口 / 魔力大于等于10时,战斗开始时第一次伤害+6 / 魔力开始在你指尖涌动。 / 太棒了
+08:34:40 act item_reveal_confirm: ok: Clicked: 太棒了
+08:34:42 act map_continue: refused: map_continue was issued 8.9 s ago and the game is still changing scene; wait for the phase to change (`witchctl wait`) instead of repeating it
+08:34:45 act map_continue: ok: Continued from map selection.
+08:34:49 act rest_eat_0: ok: Ate 大汉堡: HP 627 -> 681, max HP 1544 -> 1556.
+08:34:49 act rest_eat_0: ok: Ate 蛋糕: HP 681 -> 721, max HP 1556 -> 1564.
+08:34:50 act rest_eat_0: ok: Ate 披萨: HP 721 -> 777, max HP 1564 -> 1572.
+08:34:51 act rest_eat_0: ok: Ate 全鸡: HP 777 -> 813, max HP 1572 -> 1580.
+08:34:52 act rest_eat_0: ok: Ate 大水果篮: HP 813 -> 838, max HP 1580 -> 1584.
+08:34:53 act rest_eat_0: ok: Ate 鸡腿: HP 838 -> 888, max HP 1584 -> 1588.
+08:34:54 act rest_leave: ok: Leaving the rest room.
+08:34:57 act map_continue: ok: Continued from map selection.
+08:35:01 fight start: hp 721/1789 block 4 buffs 厄运魔能×201 匣上黑猫×1 重生×70 蓄势×3 坚毅×1 鬼化×2 锋锐×3 自愈×5 强韧×2 循环×1 敏锐×1 元素×4, incoming 0, enemies 红心女仆 1085 [蓄势 正在进行蓄力。(2), 看破 给与对方3层易伤。(2)]
+08:35:01 skill: skill_use_1
+08:35:01 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:35:03 play 雷枪 -> enemy 0: played: Card played.  hand 5→4  power 4→3  红心女仆e0 HP 1085→655
+08:35:04 play 法杖敲头 -> enemy 0: played: Card played.  hand 4→3  power 3→2  红心女仆e0 HP 655→205
+08:35:05 play 法杖敲头 -> enemy 0: played: Card played.  hand 3→2  power 2→1  红心女仆e0 HP 205→-288
+08:35:07 fight won (8)
+08:35:07 act battle_open_rewards: ok: Opened the battle rewards.
+08:35:08 act reward_claim_0: ok: Claimed: 金钱
+08:35:09 act reward_claim_0: ok: Claimed: 卡牌
+08:35:11 card: 无我一击 (rarity 2, cost 2): 每有二层锋锐造成10点物理伤害一次。结束后锋锐层数减半。
+08:35:11 act card_choice_pick_0: ok: Picked: 无我一击
+08:35:14 act reward_claim_0: ok: Claimed: 祝福
+08:35:15 act blessing_pick_0: ok: Took blessing: 律法:战斗开始时你获得3点护盾 | 盾卫:战斗开始时你获得1层强韧 | 选择本源各+2    感知+2
+08:35:17 act reward_claim_0: ok: Claimed: 遗物
+08:35:18 act reward_close: ok: Closed the reward screen.
+08:35:19 item: 新物品 / 纽带村落 / 感知大于等于10时,战斗开始时获得6点防御 / 你的感官异常敏锐。 / 太棒了
+08:35:19 act item_reveal_confirm: ok: Clicked: 太棒了
+08:35:22 act map_continue: ok: Continued from map selection.
+08:35:25 shop (5368 gold): shop_buy_3
+08:35:25 act shop_buy_3: ok: Bought 回旋斩 for 69 gold (gold 5368→5299); backpack 8→9.
+08:35:26 shop (5299 gold): shop_buy_4
+08:35:26 act shop_buy_4: ok: Bought 武装化 for 71 gold (gold 5299→5228); backpack 9→10.
+08:35:27 shop (5228 gold): shop_leave
+08:35:27   shop items: Relic 全威力珠 195g ok ⚠; Relic 固化理智 238g ok ⚠; Relic 普拉提原体 531g ok ⚠; Card 不稳定思绪 72g no: the backpack is full (10/10): put a card
+08:35:27 act shop_leave: ok: Left the ShopUI.
+08:35:31 act map_continue: refused: map_continue was issued 8.6 s ago and the game is still changing scene; wait for the phase to change (`witchctl wait`) instead of repeating it
+08:35:34 act map_continue: ok: Continued from map selection.
+08:35:37 event 奇美拉之血: 一饮而尽 (获得祝福"奇美拉之血") of 2 options
+08:35:37 act event_option_0: ok: Chose: 一饮而尽 [获得祝福"奇美拉之血"]
+08:35:39 act event_option_1: ok: Chose: 结束事件 [获得祝福"奇美拉之血"]
+08:35:41 event 黑潮-序幕: 前去疗伤…… (你沐浴在圣泉中，疲惫一扫而空。(生命+30%)) of 1 options
+08:35:41 act event_option_0: ok: Chose: 前去疗伤…… [你沐浴在圣泉中，疲惫一扫而空。(生命+30%)]
+08:35:43 event 黑潮-序幕: 驻足购买 (“时间就是金钱”我的朋友。) of 2 options
+08:35:43 act event_option_0: ok: Chose: 驻足购买 [“时间就是金钱”我的朋友。]
+08:35:44 shop (5228 gold): shop_leave
+08:35:44   shop items: Relic 战车造像 226g ok ⚠; Relic 雷鸣之羽 231g ok ⚠; Relic 纸牌塔：黑 234g ok ⚠; Card 谢幕曲 103g no: the backpack is full (10/10): put a card; Card 纯化祷言 206g no: the backpack is full (10/10): put a card; Card 伪·使徒之枪 88g no: the backpack is full (10/10): put a card
+08:35:45 act shop_leave: ok: Left the ShopUI.
+08:35:50 act map_continue: ok: Continued from map selection.
+08:35:55 fight start: hp 803/1986 block 16 buffs 厄运魔能×201 匣上黑猫×1 重生×70 蓄势×3 坚毅×1 鬼化×2 锋锐×3 自愈×5 强韧×3 循环×1 敏锐×1 元素×4, incoming 0, enemies 暴怒残片 1292 [刃契 给与自身5层锋锐。(2), 破灭 造成11*4伤害。(2)]; 恐惧残片 1331 [基础再生 回复15生命。(1), 防护结界 给与所有友方69点护盾。(1)]; 怠惰残片 1143 [蓄势 正在进行蓄力。(2), 怯懦诅咒 将3张魔力屏障塞到魔女抽牌堆中。(4), 涣散 给与魔女2层失格。(3)]
+08:35:55 skill: skill_use_1
+08:35:55 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:35:56 play 海洋之梦 -> enemy 2: played: Card played.  hand 5→4  power 4→4  怠惰残片e2 HP 1143→784
+08:35:57 play 炽焰新星 -> enemy 2: played: Card played.  hand 5→4  power 4→3  怠惰残片e2 HP 784→363
+08:35:58 play 腐化黑星 -> enemy 2: played: Card played.  hand 4→3  power 3→1  怠惰残片e2 HP 363→-164
+08:36:00 play 魔能屏障 -> enemy 0: played: Card played.  hand 3→2  power 1→0  暴怒残片e0 HP 2907→2488
+08:36:00 end turn (hp 835, block 63, rebirth 70, draw 16, last turn cost 0, incoming 0, enemies [('暴怒残片', 2488)])
+08:36:05 play 魔能屏障 -> enemy 0: played: Card played.  hand 5→4  power 3→2  暴怒残片e0 HP 2405→2405
+08:36:06 play 炽焰新星 -> enemy 0: played: Card played.  hand 4→3  power 2→1  暴怒残片e0 HP 2405→2387
+08:36:07 play 法杖敲头 -> enemy 0: played: Card played.  hand 3→2  power 1→0  暴怒残片e0 HP 2387→2371
+08:36:08 end turn (hp 718, block 7, rebirth 70, draw 13, last turn cost 204, incoming 0, enemies [('暴怒残片', 2371)])
+08:36:14 skill: skill_use_1
+08:36:14 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:36:15 play 复仇链枪 -> enemy 0: played: Card played.  hand 4→3  power 3→1  暴怒残片e0 HP 2360→-1106
+08:36:17 fight won (9)
+08:36:17 act battle_open_rewards: ok: Opened the battle rewards.
+08:36:18 act reward_claim_0: ok: Claimed: 金钱
+08:36:19 act reward_claim_0: ok: Claimed: 卡牌
+08:36:21 act card_choice_skip: ok: Skipped the card choice.
+08:36:24 act reward_claim_0: ok: Claimed: 卡牌
+08:36:25 act card_choice_skip: ok: Skipped the card choice.
+08:36:28 act reward_claim_0: ok: Claimed: 遗物
+08:36:29 act reward_claim_0: ok: Claimed: 祝福
+08:36:30 act blessing_pick_0: ok: Took blessing: 教皇:你获得的金币额外增加10% | 命运之轮:战斗开始时获得1层循环 | 最大生命值+5    获得40金币
+08:36:33 act reward_close: ok: Closed the reward screen.
+08:36:36 act map_place_7: ok: Placed 一息安隅 into node 0; 3 empty left.
+08:36:36 act map_place_2: ok: Placed 混血龙裔 35 3461 龙血 into node 1; 2 empty left.
+08:36:37 act map_place_0: ok: Placed 活性晶簇 39 984 魔能矿 into node 2; 1 empty left.
+08:36:38 act map_place_2: ok: Placed 魔女手记 into node 3; 0 empty left.
+08:36:39 act map_continue: ok: Continued from map selection.
+08:36:43 event 空王座: 握住插在地板上的魔剑 (生命上限提升100，获得500金币) of 2 options
+08:36:43 act event_option_1: ok: Chose: 握住插在地板上的魔剑 [生命上限提升100，获得500金币]
+08:36:44 event 空王座: 结束事件 (结束事件) of 1 options
+08:36:44 act event_option_0: ok: Chose: 结束事件 [结束事件]
+08:36:46 act event_option_1: ok: Chose: 结束事件 [结束事件]
+08:36:50 act map_continue: ok: Continued from map selection.
+08:36:53 act rest_eat_0: ok: Ate 大汉堡: HP 818 -> 884, max HP 2091 -> 2103.
+08:36:54 act rest_eat_0: ok: Ate 蛋糕: HP 884 -> 932, max HP 2103 -> 2111.
+08:36:55 act rest_eat_0: ok: Ate 披萨: HP 932 -> 1000, max HP 2111 -> 2119.
+08:36:56 act rest_eat_0: ok: Ate 全鸡: HP 1000 -> 1043, max HP 2119 -> 2127.
+08:36:57 act rest_eat_0: ok: Ate 大水果篮: HP 1043 -> 1072, max HP 2127 -> 2131.
+08:36:57 act rest_eat_0: ok: Ate 鸡腿: HP 1072 -> 1134, max HP 2131 -> 2135.
+08:36:58 act rest_leave: ok: Leaving the rest room.
+08:37:02 act map_continue: ok: Continued from map selection.
+08:37:06 fight start: hp 941/2332 block 16 buffs 厄运魔能×201 匣上黑猫×1 重生×70 蓄势×3 坚毅×1 鬼化×2 锋锐×3 自愈×5 强韧×3 循环×2 敏锐×1 元素×4, incoming 32, enemies 混血龙裔 3888 [龙吼 造成32点伤害，并施加2层易伤。(1), 结晶化 获得67点护盾,获得2层坚毅。(4)]
+08:37:06 skill: skill_use_1
+08:37:06 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:37:08 play 冥想针剂 -> enemy 0: played: Card played.  hand 5→5  power 4→4  混血龙裔e0 HP 3888→3436
+08:37:08 play 法杖敲头 -> enemy 0: played: Card played.  hand 6→5  power 4→3  混血龙裔e0 HP 3436→2935
+08:37:10 play 法杖敲头 -> enemy 0: played: Card played.  hand 5→4  power 3→2  混血龙裔e0 HP 2935→2401
+08:37:11 play 火雨术 -> enemy 0: played: Card played.  hand 4→3  power 2→1  混血龙裔e0 HP 2401→1844
+08:37:12 play 海洋之梦 -> enemy 0: played: Card played.  hand 3→2  power 1→1  混血龙裔e0 HP 1844→1321
+08:37:13 play 凝火术 -> enemy 0: played: Card played.  hand 3→2  power 1→1  混血龙裔e0 HP 1321→753
+08:37:14 play 魔能屏障 -> enemy 0: played: Card played.  hand 2→1  power 1→0  混血龙裔e0 HP 753→124
+08:37:14 end turn (hp 997, block 63, rebirth 70, draw 14, last turn cost 0, incoming 32, enemies [('混血龙裔', 124)])
+08:37:20 play 冥想针剂 -> enemy 0: played: Card played.  hand 4→3  power 3→3  混血龙裔e0 HP 2002→2002
+08:37:21 play 复仇链枪 -> enemy 0: played: Card played.  hand 5→4  power 3→1  混血龙裔e0 HP 2002→751
+08:37:22 play 炽焰新星 -> enemy 0: played: Card played.  hand 4→3  power 1→0  混血龙裔e0 HP 751→736
+08:37:23 end turn (hp 1009, block 31, rebirth 70, draw 9, last turn cost 75, incoming 47, enemies [('混血龙裔', 736)])
+08:37:29 skill: skill_use_1
+08:37:29 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:37:30 play 雷枪 -> enemy 0: played: Card played.  hand 4→3  power 3→2  混血龙裔e0 HP 2280→1732
+08:37:32 play 法杖敲头 -> enemy 0: played: Card played.  hand 3→2  power 2→1  混血龙裔e0 HP 1732→1050
+08:37:33 play 无锋重刃 -> enemy 0: played: Card played.  hand 2→1  power 1→0  混血龙裔e0 HP 1050→301
+08:37:34 end turn (hp 908, block 0, rebirth 70, draw 6, last turn cost 150, incoming 56, enemies [('混血龙裔', 301)])
+08:37:40 play 罐装火元 -> enemy 0: played: Card played.  hand 4→3  power 3→2  混血龙裔e0 HP 2086→2086
+08:37:41 play 魔能屏障 -> enemy 0: played: Card played.  hand 3→2  power 2→1  混血龙裔e0 HP 2086→2086
+08:37:41 play 炽焰新星 -> enemy 0: played: Card played.  hand 2→1  power 1→0  混血龙裔e0 HP 2086→2086
+08:37:43 end turn (hp 867, block 7, rebirth 70, draw 3, last turn cost 59, incoming 64, enemies [('混血龙裔', 2086)])
+08:37:48 skill: skill_use_1
+08:37:48 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:37:49 feast: playing 厄运盛宴 (the skill is ready)
+08:37:49 play 厄运盛宴: played: Card played.  hand 4→3  power 3→3  混血龙裔e0 HP 2910→2482
+08:37:50 eat: skill_use_0_self
+08:37:50 act skill_use_0_self: ok: Used 可食用厄运 on yourself: cooldown 0→5.
+08:37:51 play 聚雷术 -> enemy 0: played: Card played.  hand 3→2  power 3→1  混血龙裔e0 HP 2482→1731
+08:37:52 play 魔能屏障 -> enemy 0: played: Card played.  hand 2→1  power 1→0  混血龙裔e0 HP 1731→1104
+08:37:52 end turn (hp 1364, block 47, rebirth 70, draw 0, last turn cost 41, incoming 60, enemies [('混血龙裔', 1104)])
+08:37:58 play 魔能屏障 -> enemy 0: played: Card played.  hand 5→4  power 5→4  混血龙裔e0 HP 2460→2460
+08:37:58 play 元素循环 -> enemy 0: played: Card played.  hand 4→3  power 4→6  混血龙裔e0 HP 2460→2460
+08:37:59 play 凝火术 -> enemy 0: played: Card played.  hand 3→2  power 6→6  混血龙裔e0 HP 2460→2460
+08:38:00 play 无锋重刃 -> enemy 0: played: Card played.  hand 2→1  power 6→5  混血龙裔e0 HP 2460→2460
+08:38:01 play 法杖敲头 -> enemy 0: played: Card played.  hand 1→0  power 5→4  混血龙裔e0 HP 2460→2460
+08:38:02 end turn (hp 1375, block 7, rebirth 70, draw 18, last turn cost 76, incoming 82, enemies [('混血龙裔', 2460)])
+08:38:08 skill: skill_use_1
+08:38:08 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:38:09 play 聚雷术 -> enemy 0: played: Card played.  hand 4→3  power 3→1  混血龙裔e0 HP 3059→2320
+08:38:11 play 法杖敲头 -> enemy 0: played: Card played.  hand 3→2  power 1→0  混血龙裔e0 HP 2320→1639
+08:38:12 end turn (hp 1167, block 0, rebirth 70, draw 15, last turn cost 227, incoming 90, enemies [('混血龙裔', 1639)])
+08:38:18 play 炽焰新星 -> enemy 0: played: Card played.  hand 4→3  power 3→2  混血龙裔e0 HP 2711→2711
+08:38:19 play 炽焰新星 -> enemy 0: played: Card played.  hand 3→2  power 2→1  混血龙裔e0 HP 2711→2711
+08:38:21 play 绽放 -> enemy 0: played: Card played.  hand 2→1  power 1→0  混血龙裔e0 HP 2711→2402
+08:38:22 end turn (hp 1096, block 0, rebirth 70, draw 12, last turn cost 89, incoming 99, enemies [('混血龙裔', 2402)])
+08:38:28 skill: skill_use_1
+08:38:28 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:38:29 play 海洋之梦 -> enemy 0: played: Card played.  hand 4→3  power 3→3  混血龙裔e0 HP 3007→2306
+08:38:30 play 魔能屏障 -> enemy 0: played: Card played.  hand 4→3  power 3→2  混血龙裔e0 HP 2306→1490
+08:38:30 play 聚雷术 -> enemy 0: played: Card played.  hand 3→2  power 2→0  混血龙裔e0 HP 1490→392
+08:38:31 end turn (hp 1017, block 60, rebirth 70, draw 8, last turn cost 97, incoming 107, enemies [('混血龙裔', 392)])
+08:38:37 play 魔能屏障 -> enemy 0: played: Card played.  hand 4→3  power 3→2  混血龙裔e0 HP 2115→2115
+08:38:37 feast: playing 厄运盛宴 (the skill is ready)
+08:38:37 play 厄运盛宴: played: Card played.  hand 3→2  power 2→2  混血龙裔e0 HP 2115→2115
+08:38:37 eat: skill_use_0_self
+08:38:38 act skill_use_0_self: ok: Used 可食用厄运 on yourself: cooldown 0→5.
+08:38:39 play 罐装火元 -> enemy 0: played: Card played.  hand 2→1  power 2→1  混血龙裔e0 HP 2115→2115
+08:38:40 play 凝火术 -> enemy 0: played: Card played.  hand 1→0  power 1→1  混血龙裔e0 HP 2115→2115
+08:38:41 end turn (hp 1671, block 7, rebirth 70, draw 5, last turn cost 104, incoming 95, enemies [('混血龙裔', 2115)])
+08:38:47 skill: skill_use_1
+08:38:47 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:38:48 play 魔能屏障 -> enemy 0: played: Card played.  hand 4→3  power 3→2  混血龙裔e0 HP 2778→1270
+08:38:49 play 雷枪 -> enemy 0: played: Card played.  hand 3→2  power 2→1  混血龙裔e0 HP 1270→-482
+08:38:50 fight won (10)
+08:38:51 act battle_open_rewards: ok: Opened the battle rewards.
+08:38:52 act reward_claim_0: ok: Claimed: 金钱
+08:38:53 act reward_claim_0: ok: Claimed: 卡牌
+08:38:55 act card_choice_skip: ok: Skipped the card choice.
+08:38:57 act reward_claim_0: ok: Claimed: 祝福
+08:38:58 act blessing_pick_0: ok: Took blessing: 盾卫:战斗开始时你获得1层强韧 | 天使:战斗开始时获得1层自愈 | 魔力+2    获得40金币
+08:39:01 act reward_claim_0: ok: Claimed: 遗物
+08:39:02 act reward_close: ok: Closed the reward screen.
+08:39:06 act map_continue: ok: Continued from map selection.
+08:39:10 fight start: hp 1316/3266 block 16 buffs 厄运魔能×335 匣上黑猫×1 重生×70 蓄势×3 坚毅×1 鬼化×2 锋锐×3 自愈×6 强韧×4 循环×2 敏锐×1 元素×4, incoming 0, enemies 活性晶簇 1147 [看破 给与对方3层易伤。(2), 断脊 造成35伤害。(0)]
+08:39:10 feast: playing 厄运盛宴 (the skill is ready)
+08:39:10 play 厄运盛宴: played: Card played.  hand 5→4  power 4→4  活性晶簇e0 HP 1147→1147
+08:39:11 eat: skill_use_0_self
+08:39:11 act skill_use_0_self: ok: Used 可食用厄运 on yourself: cooldown 0→5.
+08:39:12 skill: skill_use_1
+08:39:12 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:39:13 play 冥想针剂 -> enemy 0: played: Card played.  hand 4→3  power 4→5  活性晶簇e0 HP 1147→0
+08:39:13 fight won (11)
+08:39:13 act battle_open_rewards: ok: Opened the battle rewards.
+08:39:14 act reward_claim_0: ok: Claimed: 金钱
+08:39:15 act reward_claim_0: ok: Claimed: 卡牌
+08:39:17 act card_choice_skip: ok: Skipped the card choice.
+08:39:20 act reward_claim_0: ok: Claimed: 祝福
+08:39:21 act blessing_pick_0: ok: Took blessing: 盾卫:战斗开始时你获得1层强韧 | 律法:战斗开始时你获得3点护盾 | 最大生命值+5    感知+2 | 魔力+2
+08:39:24 act reward_close: ok: Closed the reward screen.
+08:39:27 act map_continue: ok: Continued from map selection.
+08:39:31 event 帽子: 自己动手，丰衣足食 (获得一个随机遗物) of 3 options
+08:39:31 act event_option_0: ok: Chose: 自己动手，丰衣足食 [获得一个随机遗物]
+08:39:32 act event_option_1: ok: Chose: 结束事件 [获得一个随机遗物]
+08:39:35 event 黑潮-序幕: 前去疗伤…… (你沐浴在圣泉中，疲惫一扫而空。(生命+30%)) of 1 options
+08:39:35 act event_option_0: ok: Chose: 前去疗伤…… [你沐浴在圣泉中，疲惫一扫而空。(生命+30%)]
+08:39:36 event 黑潮-序幕: 驻足购买 (“时间就是金钱”我的朋友。) of 2 options
+08:39:36 act event_option_0: ok: Chose: 驻足购买 [“时间就是金钱”我的朋友。]
+08:39:38 shop (9110 gold): shop_leave
+08:39:38   shop items: Relic 血嗣契约 231g ok ⚠; Relic 纸牌塔：黑 231g ok ⚠; Relic 回廊 298g ok ⚠; Card 血刃术 74g no: the backpack is full (10/10): put a card; Card 超越次元 213g no: the backpack is full (10/10): put a card; Card 乾坤一掷 74g no: the backpack is full (10/10): put a card
+08:39:38 act shop_leave: ok: Left the ShopUI.
+08:39:43 act map_continue: ok: Continued from map selection.
+08:39:47 fight start: hp 1644/4075 block 21 buffs 厄运魔能×402 匣上黑猫×1 重生×70 蓄势×3 坚毅×1 鬼化×2 锋锐×3 自愈×6 强韧×5 循环×2 敏锐×1 元素×4, incoming 65, enemies 欲念魔女 8637 [蝶翼复切 造成13*5伤害。(1), 破灭 造成16*4伤害。(2), 断脊 造成57伤害。(0)]
+08:39:47 skill: skill_use_1
+08:39:47 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:39:49 play 魔能屏障 -> enemy 0: played: Card played.  hand 5→4  power 4→3  欲念魔女e0 HP 8637→6921
+08:39:49 play 炽焰新星 -> enemy 0: played: Card played.  hand 4→3  power 3→2  欲念魔女e0 HP 6921→5488
+08:39:50 play 魔能屏障 -> enemy 0: played: Card played.  hand 3→2  power 2→1  欲念魔女e0 HP 5488→4696
+08:39:50 play 魔能屏障 -> enemy 0: played: Card played.  hand 2→1  power 1→0  欲念魔女e0 HP 4696→3851
+08:39:50 play 生长 -> enemy 0: played: Card played.  hand 1→0  power 0→0  欲念魔女e0 HP 3851→2953
+08:39:51 end turn (hp 1684, block 285, rebirth 70, draw 17, last turn cost 0, incoming 225, enemies [('欲念魔女', 2953)])
+08:39:58 feast: playing 厄运盛宴 (the skill is ready)
+08:39:58 play 厄运盛宴: played: Card played.  hand 4→3  power 3→3  欲念魔女e0 HP 2872→2872
+08:39:58 eat: skill_use_0_self
+08:39:58 act skill_use_0_self: ok: Used 可食用厄运 on yourself: cooldown 0→5.
+08:40:00 play 雷枪 -> enemy 0: played: Card played.  hand 3→2  power 3→2  欲念魔女e0 HP 2872→2850
+08:40:01 play 元素循环 -> enemy 0: played: Card played.  hand 2→1  power 2→3  欲念魔女e0 HP 2850→2850
+08:40:01 play 反击姿态 -> enemy 0: played: Card played.  hand 1→0  power 3→1  欲念魔女e0 HP 2850→2850
+08:40:01 end turn (hp 2326, block 0, rebirth 70, draw 14, last turn cost 0, incoming 45, enemies [('欲念魔女', 2850)])
+08:40:08 skill: skill_use_1
+08:40:08 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:40:09 play 冥想针剂 -> enemy 0: played: Card played.  hand 4→3  power 3→3  欲念魔女e0 HP 2726→-452
+08:40:09 fight won (12)
+08:40:09 act battle_open_rewards: ok: Opened the battle rewards.
+08:40:11 act reward_claim_0: ok: Claimed: 金钱
+08:40:12 act reward_claim_0: ok: Claimed: 卡牌
+08:40:13 act card_choice_skip: ok: Skipped the card choice.
+08:40:16 act reward_claim_0: ok: Claimed: 卡牌
+08:40:18 act card_choice_skip: ok: Skipped the card choice.
+08:40:21 act reward_claim_0: ok: Claimed: 遗物
+08:40:22 act reward_claim_0: ok: Claimed: 祝福
+08:40:23 act blessing_pick_0: ok: Took blessing: 牧师:战斗开始时恢复2点生命 | 天使:战斗开始时获得1层自愈 | 命运之轮:战斗开始时获得1层循环 | 感知+2    魔力+2 | 幸运+2
+08:40:25 act reward_close: ok: Closed the reward screen.
+08:40:26 item: 新物品 / 恐惧之眼 / 魔力大于等于20时,战斗开始时获得3层锋锐 / 你的魔力水平异常之高，经常将照明施成火球术的效果。 / 太棒了
+08:40:26 act item_reveal_confirm: ok: Clicked: 太棒了
+08:40:27 item: 新物品 / 占卜词句 / 幸运大于等于10时,战斗开始时额外抽1张牌 / 你是人们口中的“幸运儿”。 / 太棒了
+08:40:28 act item_reveal_confirm: ok: Clicked: 太棒了
+08:40:29 act map_continue: ok: Continued from map selection.
+08:40:32 event 拟似魔王: “真正的魔王在哪？” () of 2 options
+08:40:33 act event_option_0: ok: Chose: “真正的魔王在哪？”
+08:40:34 event 拟似魔王: 结束事件 (结束事件) of 1 options
+08:40:34 act event_option_0: ok: Chose: 结束事件 [结束事件]
+08:40:36 act event_option_1: ok: Chose: 结束事件 [结束事件]
+08:40:40 act map_continue: ok: Continued from map selection.
+08:40:45 fight start: hp 2021/5013 block 21 buffs 厄运魔能×469 匣上黑猫×1 重生×70 蓄势×3 坚毅×1 鬼化×2 锋锐×6 自愈×7 强韧×5 循环×3 敏锐×1 元素×4, incoming 0, enemies 魔王剑 4644 [神之福音 造成55点伤害,获得104点护盾。(2), 魔力屏障 增加104护盾。(0)]; 魔王 14707 [原罪 在魔女抽牌堆中塞入2张原罪。(2), 神之福音 造成67点伤害,获得129点护盾。(2), 魔爆术 造成53*2伤害。(2)]; 魔王剑 4954 [寂灭黑星 造成9*5点伤害。(2), 魔力屏障 增加76护盾。(0)]
+08:40:45 skill: skill_use_1
+08:40:45 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:40:46 play 复仇链枪 -> enemy 0: played: Card played.  hand 6→5  power 4→2  魔王剑e0 HP 4644→-2285
+08:40:48 play 罐装火元 -> enemy 1: played: Card played.  hand 5→4  power 2→1  魔王剑e2 HP 3021→821
+08:40:49 play 魔能屏障 -> enemy 1: played: Card played.  hand 4→3  power 1→0  魔王剑e2 HP 821→-1319
+08:40:49 end turn (hp 2045, block 122, rebirth 70, draw 16, last turn cost 0, incoming 0, enemies [('魔王', 14707)])
+08:40:56 select: 选择1卡牌丢弃 (0 chosen, 1 to go)
+08:40:57 act battle_select_card_0: ok: Chose 魔能屏障; 0 more needed.
+08:40:57 select: 选择1卡牌丢弃 (1 chosen, 0 to go)
+08:40:57 act battle_select_confirm: ok: Confirmed the choice; the card effect resolves next.
+08:40:58 play 冥想针剂 -> enemy 0: played: Card played.  hand 4→4  power 2→2  魔王e1 HP 14707→14707
+08:40:59 play 魔能屏障 -> enemy 0: played: Card played.  hand 5→4  power 2→1  魔王e1 HP 14707→14707
+08:40:59 play 魔能屏障 -> enemy 0: played: Card played.  hand 4→3  power 1→0  魔王e1 HP 14707→14707
+08:40:59 end turn (hp 1914, block 16, rebirth 70, draw 13, last turn cost 277, incoming 0, enemies [('魔王', 14707)])
+08:41:06 skill: skill_use_1
+08:41:06 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:41:07 play 雷枪 -> enemy 0: played: Card played.  hand 4→3  power 2→1  魔王e1 HP 14707→13464
+08:41:07 select: 选择1卡牌丢弃 (0 chosen, 1 to go)
+08:41:07 act battle_select_card_0: ok: Chose 元素爆发; 0 more needed.
+08:41:08 select: 选择1卡牌丢弃 (1 chosen, 0 to go)
+08:41:08 act battle_select_confirm: ok: Confirmed the choice; the card effect resolves next.
+08:41:08 end turn (hp 1817, block 0, rebirth 70, draw 10, last turn cost 121, incoming 0, enemies [('魔王', 13464)])
+08:41:15 play 法杖敲头 -> enemy 0: played: Card played.  hand 4→3  power 3→2  魔王e1 HP 13445→13445
+08:41:17 feast: playing 厄运盛宴 (the skill is ready)
+08:41:17 play 厄运盛宴: played: Card played.  hand 3→2  power 2→2  魔王e1 HP 13445→13445
+08:41:17 eat: skill_use_0_self
+08:41:17 act skill_use_0_self: ok: Used 可食用厄运 on yourself: cooldown 0→5.
+08:41:18 play 法杖敲头 -> enemy 0: played: Card played.  hand 2→1  power 2→1  魔王e1 HP 13445→13445
+08:41:20 play 元素护盾 -> enemy 0: played: Card played.  hand 1→0  power 1→0  魔王e1 HP 13445→13445
+08:41:20 end turn (hp 2783, block 28, rebirth 70, draw 10, last turn cost 138, incoming 0, enemies [('魔王', 13445)])
+08:41:27 skill: skill_use_1
+08:41:27 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:41:28 play 海洋之梦 -> enemy 0: played: Card played.  hand 4→3  power 2→2  魔王e1 HP 13445→9257
+08:41:29 play 生长 -> enemy 0: played: Card played.  hand 4→3  power 2→2  魔王e1 HP 9257→4716
+08:41:29 play 原罪 -> enemy 0: played: Card played.  hand 3→2  power 2→0  魔王e1 HP 4716→14707
+08:41:29 end turn (hp 2506, block 0, rebirth 70, draw 6, last turn cost 319, incoming 0, enemies [('魔王', 14707)])
+08:41:36 play 雷枪 -> enemy 0: played: Card played.  hand 4→3  power 3→2  魔王e1 HP 14649→14649
+08:41:37 play 无锋重刃 -> enemy 0: played: Card played.  hand 3→2  power 2→1  魔王e1 HP 14649→14649
+08:41:37 select: 选择1卡牌丢弃 (0 chosen, 1 to go)
+08:41:37 act battle_select_card_0: ok: Chose 火雨术; 0 more needed.
+08:41:38 select: 选择1卡牌丢弃 (1 chosen, 0 to go)
+08:41:38 act battle_select_confirm: ok: Confirmed the choice; the card effect resolves next.
+08:41:39 end turn (hp 2337, block 0, rebirth 70, draw 7, last turn cost 185, incoming 0, enemies [('魔王', 14649)])
+08:41:45 skill: skill_use_1
+08:41:45 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:41:46 play 冥想针剂 -> enemy 0: played: Card played.  hand 4→3  power 2→2  魔王e1 HP 14649→7985
+08:41:47 play 炽焰新星 -> enemy 0: played: Card played.  hand 5→4  power 2→1  魔王e1 HP 7985→698
+08:41:49 play 法杖敲头 -> enemy 0: played: Card played.  hand 4→3  power 1→0  魔王e1 HP 698→14707
+08:41:49 select: 选择1卡牌丢弃 (0 chosen, 1 to go)
+08:41:49 act battle_select_card_0: ok: Chose 元素升华; 0 more needed.
+08:41:50 select: 选择1卡牌丢弃 (1 chosen, 0 to go)
+08:41:50 act battle_select_confirm: ok: Confirmed the choice; the card effect resolves next.
+08:41:50 end turn (hp 1962, block 0, rebirth 70, draw 3, last turn cost 399, incoming 0, enemies [('魔王', 14707)])
+08:41:58 play 元素升华 -> enemy 0: played: Card played.  hand 4→3  power 3→2  魔王e1 HP 14348→14348
+08:41:59 end turn (hp 1740, block 0, rebirth 70, draw 0, last turn cost 230, incoming 0, enemies [('魔王', 14348)])
+08:42:05 skill: skill_use_1
+08:42:06 act skill_use_1: ok: Used 灾祸具现化: cooldown 0→2.
+08:42:07 play 生长 -> enemy 0: played: Card played.  hand 4→3  power 3→3  魔王e1 HP 14204→5344
+08:42:07 play 原罪 -> enemy 0: played: Card played.  hand 3→2  power 3→1  魔王e1 HP 5344→-3619
+08:42:07 act dialogue_advance: ok: Advanced dialogue.
+08:42:08 act rest_eat_0: ok: Ate 大汉堡: HP 1259 -> 1351, max HP 5549 -> 5561.
+08:42:08 act rest_eat_0: ok: Ate 蛋糕: HP 1351 -> 1418, max HP 5561 -> 5569.
+08:42:09 act rest_eat_0: ok: Ate 披萨: HP 1418 -> 1516, max HP 5569 -> 5577.
+08:42:10 act rest_eat_0: ok: Ate 全鸡: HP 1516 -> 1574, max HP 5577 -> 5585.
+08:42:11 act rest_eat_0: ok: Ate 大水果篮: HP 1574 -> 1614, max HP 5585 -> 5589.
+08:42:12 act rest_eat_0: ok: Ate 鸡腿: HP 1614 -> 1703, max HP 5589 -> 5593.
+08:42:13 act rest_leave: ok: Leaving the rest room.
+08:42:16 act run_end_continue: ok: Showing the score breakdown.
+08:42:18 run end: WON, total 93758 (遗物 14900, 战斗 13500, 祝福 11640, 卡牌 6360, 金币 6958, 属性 1280, 关卡 17484, 深渊 21636)
+08:42:18 act run_end_continue: ok: Returning to the main menu.
+08:42:21 run over (1)
+08:42:21 played the requested number of runs
+08:42:21 bot exit=0

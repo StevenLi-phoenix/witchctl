@@ -1,0 +1,9 @@
+.lab/
+build/
+.toolchain/
+mod/obj/
+mod/bin/
+__pycache__/
+.recon/
+tests/modlogic/bin/
+tests/modlogic/obj/

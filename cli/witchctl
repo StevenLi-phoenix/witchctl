@@ -1,0 +1,534 @@
+#!/usr/bin/env -S python3 -I -S
+"""witchctl: command line for the WitchCtl bridge inside 魔女：终末旅途 (Witch's Apocalyptic Journey).
+
+Every command is one HTTP round trip to 127.0.0.1:47800 (override with --port / WITCHCTL_PORT).
+Output is compact text meant to be read by an agent; add --json for the raw response.
+
+Exit codes: 0 ok, 1 the game refused / condition not met / timed out, 2 bridge unreachable or bad usage.
+"""
+import argparse
+import json
+import os
+import socket
+import sys
+import time
+
+DEFAULT_PORT = 47800
+
+
+class UsageError(Exception):
+    """Bad command line (exit 2)."""
+
+
+class BridgeDown(Exception):
+    """Nothing is listening (exit 2)."""
+
+
+class BridgeTimeout(Exception):
+    """The bridge accepted the connection but did not answer in time (exit 1): the game may be busy, the command may still run."""
+
+
+class Bridge:
+    """Minimal HTTP/1.1 client. The bridge always answers with Content-Length and closes, so a socket and a
+    dozen lines replace http.client, whose import alone costs ~11 ms of the latency budget."""
+
+    def __init__(self, port, timeout):
+        self.port, self.timeout = port, timeout
+        self.last_timing = None  # (wall_ms, hop_ms, exec_ms)
+
+    def call(self, method, path, body=None):
+        payload = b"" if body is None else json.dumps(body, ensure_ascii=False).encode()
+        head = f"{method} {path} HTTP/1.1\r\nHost: 127.0.0.1\r\nConnection: close\r\nContent-Type: application/json\r\nContent-Length: {len(payload)}\r\n\r\n"
+        t0 = time.perf_counter()
+        try:
+            with socket.create_connection(("127.0.0.1", self.port), timeout=self.timeout) as s:
+                s.sendall(head.encode() + payload)
+                chunks = []
+                while True:
+                    chunk = s.recv(65536)
+                    if not chunk:
+                        break
+                    chunks.append(chunk)
+        except socket.timeout as e:
+            raise BridgeTimeout(f"no answer from the bridge within {self.timeout:g}s; the game may be busy loading or resolving a card "
+                                "(the command may still have run: check `witchctl state`)") from e
+        except OSError as e:
+            raise BridgeDown(f"bridge not reachable on 127.0.0.1:{self.port} ({e.__class__.__name__}). "
+                             "Is the game running with the WitchCtl mod? (scripts/lab.sh start)") from e
+        wall = (time.perf_counter() - t0) * 1000
+        raw = b"".join(chunks)
+        header, _, rest = raw.partition(b"\r\n\r\n")
+        lines = header.decode("latin-1").split("\r\n")
+        try:
+            status = int(lines[0].split()[1])
+        except (IndexError, ValueError):
+            raise BridgeDown(f"bridge on :{self.port} sent a malformed response")
+        fields = {k.strip().lower(): v.strip() for k, _, v in (ln.partition(":") for ln in lines[1:])}
+        self.last_timing = (wall, int(fields.get("x-hop-us", 0)) / 1000, int(fields.get("x-exec-us", 0)) / 1000)
+        try:
+            data = json.loads(rest)
+        except ValueError:
+            data = {"error": "bad_response", "message": rest[:200].decode("utf-8", "replace")}
+        if status >= 400 and "error" not in data:
+            data = {"error": f"http_{status}", "message": str(data)}
+        return data
+
+
+# ---------------------------------------------------------------- rendering
+
+# Windows that are open in almost every phase: listing them is noise.
+QUIET_WINDOWS = {"ChatUI", "CaptionUI", "TopBarUI", "LanguageUseUI"}
+
+def short(value, limit=90):
+    text = str(value).replace("\n", " ")
+    return text if len(text) <= limit else text[: limit - 1] + "…"
+
+
+def fmt_unit(unit):
+    if not unit:
+        return "?"
+    out = f"{unit.get('name', '?')} HP {unit.get('hp')}/{unit.get('maxHp')} DEF {unit.get('defend')}"
+    if unit.get("dead"):
+        out += " [dead]"
+    elif unit.get("state") not in (None, "Default", "Normal", "None"):
+        out += f" [{unit['state']}]"
+    buffs = [f"{b.get('name') or b.get('id') or '?'}×{b.get('level')}" for b in unit.get("buffs") or [] if isinstance(b, dict)]
+    if buffs:
+        out += " buffs: " + ", ".join(buffs)
+    return out
+
+
+def fmt_card(card):
+    """One hand card. The mod already resolved the text (numbers filled in, rich text stripped)."""
+    mark = "✓" if card.get("playable") else "✗"
+    tags = f" [{', '.join(card['tags'])}]" if card.get("tags") else ""
+    why = "" if card.get("playable") or not card.get("reason") else f"  ({card['reason']})"
+    picked = "  ← chosen" if card.get("chosen") else ""   # only present while a card selection prompt is open
+    aim = f"  [aim: {card['targets']}]" if card.get("targets") not in (None, "enemy") else ""   # who a targeted card may hit; plain attacks stay quiet
+    return (f"[{card.get('index')}] {mark} {card.get('name', '?')} ({card.get('id', '?')}) cost {card.get('cost', '?')} "
+            f"{card.get('type') or ''}{tags}{aim} — {short(card.get('text') or '', 100)}{why}{picked}")
+
+
+def fmt_action(action):
+    params = action.get("Parameters") or {}
+    extra = " " + json.dumps(params, ensure_ascii=False) if params else ""
+    return f"{action.get('Id')}  {action.get('Label', '')}{extra}"
+
+
+def render_actions(actions):
+    return "\n".join("  " + fmt_action(a) for a in actions) or "  (none)"
+
+
+def render_ui(ui):
+    lines = []
+    for win in ui.get("windows", []):
+        lines.append(f"{win.get('name')}")
+        for c in win.get("clickables", []):
+            flag = "" if c.get("interactable", True) else "  (disabled)"
+            lines.append(f"  [{c.get('id')}] {short(c.get('label'), 60)}{flag}")
+        for x in win.get("blocked", []):   # listed, but the mod refuses to click them
+            lines.append(f"  blocked: {short(x.get('label'), 40)} ({x.get('path')}) — {x.get('reason')}")
+        for t in win.get("texts", []):
+            lines.append(f"  · {short(t, 120)}")
+    return "\n".join(lines) or "(no active windows)"
+
+
+def render_state(state):
+    lines = [f"phase: {state.get('phase')}  (frame {state.get('frame')})"]
+    if state.get("windows") and state.get("phase") != "battle":
+        lines.append("windows: " + ", ".join(w for w in state["windows"] if w not in QUIET_WINDOWS))
+    run = state.get("run")
+    if run:
+        room = run.get("backpackMax", 10**9)
+        full = " (no room: every card pick is refused)" if room <= 0 else " (full)" if run.get("backpack") is not None and run.get("backpack") >= room else ""
+        lines.append(f"run:     {run.get('gold')} gold | deck {run.get('inDeck')} ({run.get('minimum')}–{run.get('maximum')}) | backpack {run.get('backpack')}/{run.get('backpackMax')}{full}"
+                     + (f" | relics {run.get('relics')}/{run.get('relicSlots')}" if run.get("relicSlots") else ""))
+        if run.get("attributes"):
+            lines.append("         attributes: " + ", ".join(f"{k} {v}" for k, v in run["attributes"].items()))
+    mp = state.get("map")
+    if mp:
+        stop = lambda s: f"{s.get('kind') or '?'} {short(s.get('holds') or '', 40)}" if s else "?"
+        lines.append(f"map:     level {mp.get('level')} ({'you build the route' if mp.get('playerBuilds') else 'built by the host'}, {mp.get('positionInCycle')} of 6 done)"
+                     f" | start {stop(mp.get('start'))} | end {stop(mp.get('end'))}")
+    if state.get("mapNodes"):
+        lines.append("route:   " + "  ".join(f"[{n.get('index')}] " + ("(empty)" if n.get("empty") else (f"{n['kind']}: " if n.get("kind") else "") + short(n.get("holds") or "?", 24)) for n in state["mapNodes"]))
+    for c in state.get("mapChoices") or []:
+        lines.append(f"  tray [{c.get('index')}] {short(c.get('label') or '', 60)} ({c.get('kind')})")
+    end = state.get("runEnd")
+    if end:
+        lines.append("run end: " + ("cleared" if end.get("won") else "lost") + (f"  score {end.get('total')}" if end.get("total") else "")
+                     + ("  (breakdown shown: the next click returns to the menu)" if end.get("detailsShown") else ""))
+        if end.get("score"):
+            lines.append("  " + "  ".join(f"{k} {v}" for k, v in end["score"].items()))
+    event = state.get("event")
+    if event:
+        lines.append(f"event:   {event.get('title')}" + ("  (resolved: leave it)" if event.get("resolved") else ""))
+        if event.get("text"):
+            lines.append("  " + short(event["text"].replace("\n", " "), 200))
+        for o in event.get("options") or []:
+            lines.append(f"  option [{o.get('index')}] {short(o.get('label') or '', 100)}" + ("" if o.get("interactable") else "  (disabled)"))
+            if o.get("effect"):
+                lines.append(f"      → {short(o['effect'].replace(chr(10), ' '), 160)}")   # the hover text: some choices are irreversible
+    shop = state.get("shop")
+    if shop:
+        refresh = shop.get("refresh")
+        lines.append(f"shop:    {shop.get('window')} | {shop.get('gold')} gold | backpack {shop.get('backpack')}/{shop.get('backpackMax')}"
+                     + (f" | refresh {refresh.get('cost')} ({refresh.get('used')}/{refresh.get('max')})" if refresh else ""))
+        for it in shop.get("items") or []:
+            why = ("" if it.get("buyable") else f"  (can't buy: {short(it.get('note') or '?', 70)})") + (f"  ⚠ {short(it['warn'], 80)}" if it.get("warn") else "")
+            lines.append(f"  [{it.get('index')}] {it.get('kind'):<6} {short(it.get('name') or '?', 30)} — {it.get('price')} gold — {short(it.get('text') or '', 90)}{why}")
+    if state.get("shopError"):
+        lines.append(f"warning: shop: {state['shopError']}")
+    pick = state.get("select")
+    if pick and state.get("phase") == "deck_select":
+        lines.append(f"picker:  {pick.get('caption')} ({pick.get('remaining')} more, {pick.get('chosen')} chosen)")
+        for c in pick.get("cards") or []:
+            lines.append(f"  [{c.get('index')}] {short(c.get('name') or c.get('id') or '?', 30)} ({c.get('cost')}) — {short(c.get('text') or '', 90)}" + ("  ← chosen" if c.get("chosen") else ""))
+    deck = state.get("deck")
+    if deck:
+        lines.append(f"deck:    {deck.get('inDeck')} in deck ({deck.get('minimum')}–{deck.get('maximum')}), {deck.get('backpack')}/{deck.get('backpackMax')} in backpack, "
+                     f"{deck.get('gold')} gold" + ("  (a shop is open: cards can be sold)" if deck.get("shopOpen") else ""))
+        for c in deck.get("cards") or []:
+            tags = f" [{c['tags']}]" if c.get("tags") else ""
+            lines.append(f"  [{c.get('index')}] {c.get('zone'):<8} {short(c.get('name') or c.get('id') or '?', 30)} ({c.get('cost')}){tags} — {short(c.get('text') or '', 90)}")
+    if state.get("deckError"):
+        lines.append(f"warning: deck: {state['deckError']}")
+    hub = state.get("hub")
+    if hub:
+        lines.append(f"hub:     level {hub.get('level')} (exp {hub.get('exp')}) | {hub.get('truth')} truth, {hub.get('time')} time | {hub.get('runsPlayed')} runs played"
+                     + (f" | page {hub['page']} is open" if hub.get("page") else ""))
+        for it in hub.get("pageItems") or []:
+            lines.append(f"  [{it.get('index')}] {it.get('type')} {short(it.get('label') or '', 30)}" + ("" if it.get("allowed") else f"  (not offered: {short(it.get('note') or '?', 70)})"))
+    ach = state.get("achievements")
+    if ach:
+        lines.append(f"achievements: {ach.get('claimable')} of {ach.get('total')} can be claimed | {ach.get('truth')} truth, {ach.get('time')} time")
+        for a in ach.get("items") or []:
+            mark = "★" if a.get("claimable") else "✓" if a.get("claimed") else " "
+            lines.append(f"  [{a.get('index')}] {mark} {short(a.get('name') or '?', 24)} — {a.get('reward')} {a.get('rewardType')} — {short(a.get('text') or '', 70)} ({a.get('progress'):g}/{a.get('target'):g})"
+                         + ("  claimed" if a.get("claimed") else ""))
+    if state.get("achievementsError"):
+        lines.append(f"warning: achievements: {state['achievementsError']}")
+    meta = state.get("outsiderShop")
+    if meta:
+        lines.append(f"meta shop: {meta.get('tab')} | {meta.get('truth')} truth, {meta.get('time')} time")
+        for it in meta.get("items") or []:
+            head = f"  [{it.get('index')}] {short(it.get('name') or '?', 24)}"
+            if it.get("mode") == "buy":
+                why = "" if it.get("affordable") else f"  (can't buy: {short(it.get('note') or '?', 70)})"
+                lines.append(f"{head} — {it.get('price')} {it.get('currency')} — level {it.get('bought')}/{it.get('levels')} — {short(it.get('text') or '', 70)}{why}")
+            elif it.get("mode") == "toggle":
+                lines.append(f"{head} — owned, switch with outsider_toggle_{it.get('index')} ({'on' if it.get('used') else 'off'})")
+            else:
+                lines.append(f"{head} — owned" + (f" ({'on' if it.get('used') else 'off'})" if it.get("levels") == 1 else f" (level {it.get('bought')}/{it.get('levels')})"))
+    if state.get("outsiderShopError"):
+        lines.append(f"warning: meta shop: {state['outsiderShopError']}")
+    entry = state.get("entry")
+    if entry:
+        def chosen(item, at_start):
+            return f"{item['name']} ({item['id']})" if item else f"(none yet; the game takes {at_start or '?'} at the start)"
+        lines.append("before the run" + ("  [get-ready window open]" if entry.get("windowOpen") else ""))
+        lines.append(f"  career:  {chosen(entry.get('career'), entry.get('careerAtStart'))}")
+        for c in entry.get("careers") or []:
+            lines.append(f"    [{c.get('index')}] {'●' if c.get('selected') else '○'} {c.get('name')} (san {c.get('sanMax')}) — {short('; '.join(c.get('skills') or []), 110)}")
+        lines.append(f"  partner: {chosen(entry.get('partner'), entry.get('partnerAtStart'))}")
+        for p in entry.get("partners") or []:
+            lines.append(f"    [{p.get('index')}] {'●' if p.get('selected') else '○'} {p.get('name')} — {short('; '.join(p.get('skills') or []), 110)}")
+        lines.append(f"  attributes: main {entry.get('main') or '?'}, second {entry.get('second') or '?'}  (of {', '.join(entry.get('attributes') or [])})")
+        packs = entry.get("packs")
+        if packs:
+            lines.append(f"  packs:   {packs.get('enabled')} enabled (at least {packs.get('minimum')}) — {packs.get('cards')} cards, {packs.get('relics')} relics, "
+                         f"{packs.get('blessings')} blessings, {packs.get('enchantments')} enchantments")
+            lines.append("    " + "  ".join(("[x] " if p.get("enabled") else "[ ] ") + f"{p.get('name') or p.get('id')} ({p.get('id')})" for p in packs.get("list") or []))
+        hard = entry.get("hardTags") or {}
+        tags = hard.get("active") or []
+        lines.append("  difficulty tags: " + (", ".join(f"{t.get('name') or t.get('id')} {t.get('level')}/{t.get('max')}" for t in tags) + f" (extra reward {hard.get('extraReward')})" if tags else "none"))
+    if state.get("entryError"):
+        lines.append(f"warning: entry: {state['entryError']}")
+    rest = state.get("rest")
+    if rest:
+        lines.append(f"rest:    HP {rest.get('hp')}/{rest.get('maxHp')}")
+        for f in rest.get("food") or []:
+            lines.append(f"  food [{f.get('index')}] {short(f.get('name') or f.get('id') or '?', 40)} (heals {f.get('healPercentOfHp')}% of HP + 5, max HP +{f.get('maxHpUp')})")
+    slot = state.get("slot")
+    if slot:
+        lines.append(f"slot:    chips {slot.get('chips')} (earned {slot.get('chipsEarned')}, next stake {slot.get('nextStake')}) | draws {slot.get('draws')} | "
+                     f"{'night' if slot.get('night') else 'day'} | base score {slot.get('baseScore')} | leaving now pays {slot.get('payoutTruth')} truth")
+    for tip in state.get("tutorial") or []:
+        lines.append(f"tutorial: {tip.get('speaker')} ({tip.get('slide')}/{tip.get('slides')}): {short(tip.get('text') or '', 120)}")
+    battle = state.get("battle")
+    if battle:
+        player = battle.get("player") or {}
+        piles = player.get("piles") or {}
+        pile_text = f" | draw {piles.get('draw')} discard {piles.get('discard')}" if piles else ""
+        lines.append(f"player:  {fmt_unit(player.get('unit'))} | power {player.get('powerCount')}/{player.get('maxPowerCount')}{pile_text}")
+        lines.append("enemies:")
+        for e in battle.get("enemies") or []:
+            lines.append(f"  [{e.get('index')}] {fmt_unit(e.get('unit'))}")
+            for ic in e.get("intents") or []:
+                lines.append(f"      intends: {ic.get('name') or ic.get('id')} — {short(ic.get('text') or '', 80)}")
+        lines.append("hand:")
+        for c in battle.get("hand") or []:
+            lines.append("  " + fmt_card(c))
+        if battle.get("skills"):
+            lines.append("skills:")
+            for sk in battle["skills"]:
+                status = ("ready" + (", aimed" if sk.get("aimed") else "")) if sk.get("usable") else f"cooldown {sk.get('cooldown')}" if sk.get("cooldown") else "not usable now"
+                lines.append(f"  [{sk.get('index')}] {sk.get('name')} — {status} — {short(sk.get('text') or '', 90)}")
+        select = battle.get("select")
+        if select:   # a card is asking the player to pick hand cards; the turn button is hidden until it is confirmed
+            lines.append(f"select:  {select.get('type')} — {select.get('title')} (choose {select.get('need')} more, {select.get('chosen')} chosen"
+                         + (", can confirm" if select.get("canConfirm") else "") + ")")
+        flow = battle.get("flow") or {}
+        lines.append(f"flow:    {flow.get('fightType')} canAct={flow.get('canAct')} animating={flow.get('animating')}"
+                     + (" busy" if flow.get("busy") else "") + (" scripted-fight(player is revived when defeated)" if flow.get("fake") else ""))
+        last = flow.get("lastPlay") or {}
+        if last and not last.get("Ok", True):
+            lines.append(f"warning: last play ({last.get('CardId')}) failed: {last.get('Error')}")
+        for key in [k for k in battle if k.endswith("Error")]:
+            lines.append(f"warning: {key}: {battle[key]}")
+    for r in state.get("rewards") or []:
+        lines.append(f"  reward [{r.get('index')}] {r.get('title')} — {short(r.get('text') or '', 80)}" + ("" if r.get("claimable") else "  (claimed)"))
+    for c in state.get("cardChoice") or []:
+        lines.append(f"  card [{c.get('index')}] {c.get('name')} cost {c.get('cost')} (rarity {c.get('rarity')}) — {short(c.get('text') or '', 100)}"
+                     + ("" if c.get("pickable") else "  (not pickable)"))
+    if state.get("note"):
+        lines.append(f"note: {state['note']}")
+    for bl in state.get("blessings") or []:
+        lines.append(f"  blessing [{bl.get('index')}] {short(bl.get('text') or '', 160)}" + ("" if bl.get("pickable") else "  (not pickable)"))
+    if state.get("ui"):
+        lines.append("ui:")
+        lines.extend("  " + ln for ln in render_ui(state["ui"]).splitlines())
+    lines.append("actions:")
+    lines.append(render_actions(state.get("actions") or []))
+    return "\n".join(lines)
+
+
+def render_generic(data):
+    return json.dumps(data, ensure_ascii=False, indent=2)
+
+
+# ---------------------------------------------------------------- commands
+
+def ok_of(data):
+    if "error" in data:
+        return False
+    for key in ("ok", "Success"):
+        if key in data:
+            return bool(data[key])
+    return True
+
+
+def verdict(ok, message):
+    """'ok: ...' / 'refused: ...'. The mod's refusals already start with 'refused: ' in places; say it once."""
+    message = str(message)
+    if not ok and message.startswith("refused: "):
+        message = message[len("refused: "):]
+    return ("ok: " if ok else "refused: ") + message
+
+
+def cmd_ping(b, a):
+    return b.call("GET", "/ping"), lambda d: f"ok  v{d.get('version')}  served={d.get('served')} failed={d.get('failed')} muted={d.get('audioMuted')}"
+
+
+def cmd_state(b, a):
+    return b.call("GET", "/state?full=1" if a.full else "/state"), render_state
+
+
+def cmd_actions(b, a):
+    return b.call("GET", "/actions"), lambda d: f"phase: {d.get('Phase')}\n" + render_actions(d.get("Actions") or [])
+
+
+def cmd_act(b, a):
+    return b.call("POST", "/act", {"ActionId": a.action_id}), lambda d: verdict(d.get("Success"), d.get("Message"))
+
+
+def cmd_play(b, a):
+    if a.index is None and not a.uid:
+        raise UsageError("play needs a hand index or --uid")
+    body = {"CardUid": a.uid} if a.uid else {"CardIndex": a.index}
+    if a.target is not None and a.self_target:
+        raise UsageError("play: give either --target or --self, not both")
+    if a.target is not None:
+        body["TargetIndex"] = a.target
+    if a.self_target:
+        body["TargetSelf"] = True
+    if a.wait:
+        body["Wait"] = True
+    def show(d):
+        if d.get("Success") and d.get("Message") == "queued":
+            return f"queued: {d.get('CardId')} (power {d.get('PowerBefore')}, hand {d.get('HandCountBefore')}) — `witchctl state` shows the result"
+        if not d.get("Success"):
+            return verdict(False, d.get("Message"))
+        head = f"played: {d.get('Message')}  hand {d.get('HandCountBefore')}→{d.get('HandCountAfter')}  power {d.get('PowerBefore')}→{d.get('PowerAfter')}"
+        if d.get("TargetName"):
+            head += f"  {d.get('TargetName')} HP {d.get('TargetHpBefore')}→{d.get('TargetHpAfter')}"
+        return head
+    return b.call("POST", "/play", body), show
+
+
+def cmd_end_turn(b, a):
+    return b.call("POST", "/act", {"ActionId": "battle_end_turn"}), lambda d: verdict(d.get("Success"), d.get("Message"))
+
+
+def cmd_ui(b, a):
+    return b.call("GET", "/ui"), render_ui
+
+
+def cmd_click(b, a):
+    target = a.target
+    body = {"Path": a.path} if a.path else {"Id": int(target)} if target.lstrip("-").isdigit() else {"Text": target}
+    if a.right:
+        body["Right"] = True
+    def show(d):
+        if d.get("ok"):
+            c = d["clicked"]
+            return f"clicked [{c['id']}] {c['label']}"
+        lines = [f"refused: {d.get('error')}: {d.get('message', '')}"]
+        lines += [f"  [{c['id']}] {short(c['label'], 60)}  {c['path']}" for c in d.get("candidates", [])]
+        return "\n".join(lines)
+    return b.call("POST", "/click", body), show
+
+
+# Screens that are world objects, not UI windows (`/world?root=` finds root objects by name): the hub scene and the rest room.
+WORLD_ROOTS = {"hub": ["NewHouse"], "rest": ["Breaks"]}
+
+
+def cmd_recon(b, a):
+    """Record what a screen is made of, for screens the mod does not model: state, the UI dump and, per open window, the object tree with
+    each button's prefab `onClick` target. One file per distinct screen (phase + open windows), written once unless --force."""
+    state = b.call("GET", "/state")
+    if "error" in state:
+        return state, None
+    windows = [w for w in state.get("windows") or [] if w not in QUIET_WINDOWS]
+    if state.get("phase") == "modal":
+        windows.append("modal")
+    name = "__".join([str(state.get("phase"))] + sorted(windows))
+    path = os.path.join(a.dir, name.translate({ord(c): "_" for c in '/\\: *?"<>|'}) + ".json")
+    if os.path.exists(path) and not a.force:
+        return {"file": path, "new": False}, lambda d: f"already recorded: {d['file']}"
+    dump = {"time": time.strftime("%Y-%m-%d %H:%M:%S"), "state": state, "ui": b.call("GET", "/ui"),
+            "worlds": {w: b.call("GET", f"/world?window={w}&depth={a.depth}") for w in windows}}
+    for root in WORLD_ROOTS.get(state.get("phase"), []):
+        dump["worlds"]["root:" + root] = b.call("GET", f"/world?root={root}&depth={a.depth}")
+    os.makedirs(a.dir, exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(dump, f, ensure_ascii=False, indent=1)
+    return {"file": path, "new": True, "windows": list(dump["worlds"])}, lambda d: f"recorded: {d['file']} ({len(d['windows'])} dump(s))"
+
+
+def cmd_audio(b, a):
+    return b.call("POST", "/audio", {"On": a.mode == "on"}), lambda d: f"audio {'muted' if d.get('audioMuted') else 'on'}"
+
+
+def cmd_speed(b, a):
+    d = b.call("POST", "/speed", {"Scale": a.scale}) if a.scale is not None else b.call("GET", "/speed")
+    return d, lambda d: f"game speed x{d.get('timeScale'):g}"
+
+
+def cmd_raw(b, a):
+    try:
+        body = json.loads(a.body) if a.body else None
+    except ValueError as e:
+        raise UsageError(f"raw: the body is not valid JSON ({e})")
+    return b.call(a.method.upper(), a.path, body), render_generic
+
+
+def cmd_wait(b, a):
+    """Poll /state until the condition holds (connection errors count as 'not yet': the game may be loading)."""
+    deadline = time.monotonic() + a.wait_timeout
+    last, state = None, None
+    while True:
+        try:
+            state = b.call("GET", "/state")
+            if "error" not in state and wait_satisfied(b, state, a):
+                return state, render_state
+            last = None
+        except (BridgeDown, BridgeTimeout) as e:
+            last = str(e)
+        if time.monotonic() >= deadline:
+            return {"error": "timeout", "message": f"condition not met within {a.wait_timeout}s" + (f" ({last})" if last else ""), "last": state}, None
+        time.sleep(a.interval / 1000)
+
+
+def wait_satisfied(b, state, a):
+    if a.phase and state.get("phase") != a.phase:
+        return False
+    if a.action and not any(x.get("Id") == a.action or x.get("Kind") == a.action for x in state.get("actions") or []):
+        return False
+    if a.idle:
+        flow = (state.get("battle") or {}).get("flow") or {}
+        if flow.get("animating") or flow.get("canUseCards") is False:
+            return False
+    if a.text:
+        ui = state.get("ui") or b.call("GET", "/ui")
+        haystack = [t for w in ui.get("windows", []) for t in w.get("texts", []) + [c.get("label", "") for c in w.get("clickables", [])]]
+        if not any(a.text in t for t in haystack):
+            return False
+    return True
+
+
+def build_parser():
+    # Global options are accepted both before and after the subcommand; SUPPRESS keeps the
+    # subparser from overwriting a value given earlier on the command line.
+    def add_common(parser, suppress):
+        d = (lambda v: argparse.SUPPRESS) if suppress else (lambda v: v)
+        parser.add_argument("--port", type=int, default=d(int(os.environ.get("WITCHCTL_PORT", DEFAULT_PORT))))
+        parser.add_argument("--json", action="store_true", default=d(False), help="print the raw JSON response")
+        parser.add_argument("--timing", action="store_true", default=d(False), help="print wall/hop/exec milliseconds to stderr")
+        parser.add_argument("--timeout", type=float, default=d(15.0), help="HTTP timeout in seconds (default 15)")
+
+    p = argparse.ArgumentParser(prog="witchctl", description=__doc__.split("\n\n")[0],
+                                formatter_class=argparse.RawDescriptionHelpFormatter)
+    add_common(p, suppress=False)
+    common = argparse.ArgumentParser(add_help=False)
+    add_common(common, suppress=True)
+    sub = p.add_subparsers(dest="cmd", required=True, parser_class=lambda **kw: argparse.ArgumentParser(parents=[common], **kw))
+
+    sub.add_parser("ping", help="is the bridge up?").set_defaults(fn=cmd_ping)
+    s = sub.add_parser("state", help="phase + legal actions (+ battle details / UI when relevant)"); s.add_argument("--full", action="store_true", help="with --json: include the raw config rows behind each card"); s.set_defaults(fn=cmd_state)
+    sub.add_parser("actions", help="the game's own legal-action list").set_defaults(fn=cmd_actions)
+    s = sub.add_parser("act", help="perform a legal action by id (see `state`)"); s.add_argument("action_id"); s.set_defaults(fn=cmd_act)
+    s = sub.add_parser("play", help="play the hand card at INDEX (or --uid: indices shift as cards leave the hand)"); s.add_argument("index", type=int, nargs="?"); s.add_argument("--uid", help="stable card handle from `state --json`"); s.add_argument("--target", type=int, help="enemy index"); s.add_argument("--self", action="store_true", dest="self_target", help="aim at yourself (cards with CanSelf: heals, buffs)"); s.add_argument("--wait", action="store_true", help="answer after the card resolved (slower: the game takes hundreds of ms)"); s.set_defaults(fn=cmd_play)
+    sub.add_parser("end-turn", help="end the player's turn").set_defaults(fn=cmd_end_turn)
+    sub.add_parser("ui", help="active windows: clickable items and texts").set_defaults(fn=cmd_ui)
+    s = sub.add_parser("click", help="click a UI item by id, exact label, or --path"); s.add_argument("target", nargs="?", default=""); s.add_argument("--path"); s.add_argument("--right", action="store_true", help="a right click (menus such as the safe box's move / throw)"); s.set_defaults(fn=cmd_click)
+    s = sub.add_parser("recon", help="dump the current screen (state, ui, window object trees) to --dir for later modelling"); s.add_argument("--dir", default=os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), ".recon")); s.add_argument("--depth", type=int, default=6); s.add_argument("--force", action="store_true", help="overwrite an existing record of the same screen"); s.set_defaults(fn=cmd_recon)
+    s = sub.add_parser("audio", help="game audio on/off (the lab launches the game muted)"); s.add_argument("mode", choices=["on", "off"]); s.set_defaults(fn=cmd_audio)
+    s = sub.add_parser("speed", help="the game's clock (Time.timeScale; animations and waits run faster, clamped to 0.25-4): `speed 3`, `speed 1` to restore, no argument reads it"); s.add_argument("scale", type=float, nargs="?"); s.set_defaults(fn=cmd_speed)
+    s = sub.add_parser("raw", help="send an arbitrary request"); s.add_argument("method"); s.add_argument("path"); s.add_argument("body", nargs="?"); s.set_defaults(fn=cmd_raw)
+    s = sub.add_parser("wait", help="block until a condition holds (exit 1 on timeout)")
+    s.add_argument("--phase"); s.add_argument("--action", help="a legal action id/kind is present")
+    s.add_argument("--text", help="substring visible in the UI"); s.add_argument("--idle", action="store_true", help="battle animations finished")
+    s.add_argument("--wait-timeout", type=float, default=30.0, dest="wait_timeout", help="give up after N seconds (default 30)"); s.add_argument("--interval", type=float, default=50.0, help="poll interval ms")
+    s.set_defaults(fn=cmd_wait)
+    return p
+
+
+def main(argv=None):
+    args = build_parser().parse_args(argv)
+    if args.cmd == "click" and not args.target and not args.path:
+        print("click needs an id, a label, or --path", file=sys.stderr)
+        return 2
+    bridge = Bridge(args.port, args.timeout)
+    try:
+        data, render = args.fn(bridge, args)
+    except (BridgeDown, UsageError) as e:
+        print(e, file=sys.stderr)
+        return 2
+    except BridgeTimeout as e:
+        print(f"error: timeout: {e}", file=sys.stderr)
+        return 1
+    if args.timing and bridge.last_timing:
+        w, h, x = bridge.last_timing
+        print(f"[timing] wall={w:.1f}ms hop={h:.1f}ms exec={x:.1f}ms", file=sys.stderr)
+    if "error" in data:
+        print(f"error: {data['error']}: {data.get('message', '')}", file=sys.stderr)
+        if args.json:
+            print(json.dumps(data, ensure_ascii=False))
+        return 1
+    print(json.dumps(data, ensure_ascii=False) if args.json or render is None else render(data))
+    return 0 if ok_of(data) else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

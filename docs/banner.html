@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><title>witchctl banner</title>
+<style>
+  :root { --bg1:#120a24; --bg2:#2b1457; --glow:#7c5cff; --teal:#4fe3c1; --pink:#ff7ad9; --ink:#efe9ff; --dim:#9a8fc4; }
+  * { box-sizing:border-box; margin:0; }
+  body { width:1280px; height:640px; overflow:hidden; color:var(--ink);
+         background: radial-gradient(900px 500px at 78% 40%, #3b1d7a 0%, transparent 70%), linear-gradient(135deg,var(--bg1),var(--bg2));
+         font-family:-apple-system,"PingFang SC","Helvetica Neue",sans-serif; position:relative; }
+  .stars span { position:absolute; width:3px; height:3px; border-radius:50%; background:#fff; opacity:.5; box-shadow:0 0 6px #fff; }
+  .left { position:absolute; left:72px; top:150px; width:480px; }
+  h1 { font-size:92px; letter-spacing:-2px; font-weight:800; line-height:1;
+        background:linear-gradient(90deg,#fff,var(--pink) 60%,var(--teal)); -webkit-background-clip:text; color:transparent; }
+  .sub { margin-top:22px; font-size:26px; line-height:1.45; color:#d9d0ff; }
+  .sub b { color:var(--teal); font-weight:600; }
+  .chips { margin-top:30px; display:flex; gap:12px; flex-wrap:wrap; }
+  .chips i { font-style:normal; font-size:17px; padding:7px 14px; border-radius:999px; border:1px solid #6b55c9; background:#ffffff10; color:#e5defd; }
+  .term { position:absolute; right:56px; top:64px; width:640px; height:512px; border-radius:16px; background:#0d0820ee;
+          border:1px solid #6b55c9; box-shadow:0 0 0 1px #00000040, 0 30px 80px #000a, 0 0 90px #7c5cff55; overflow:hidden; }
+  .bar { height:38px; display:flex; align-items:center; gap:8px; padding:0 14px; background:#ffffff0d; border-bottom:1px solid #ffffff14; }
+  .bar i { width:12px; height:12px; border-radius:50%; background:#ff5f57; } .bar i:nth-child(2){background:#febc2e} .bar i:nth-child(3){background:#28c840}
+  .bar span { margin-left:10px; color:var(--dim); font:13px Menlo,monospace; }
+  pre { padding:16px 20px; font:14.4px/1.55 "SF Mono",Menlo,"PingFang SC",monospace; color:#e8e2ff; white-space:pre-wrap; }
+  .prompt { color:var(--teal); } .k { color:var(--pink); } .ok { color:#5dffa8; } .no { color:#ff6b8a; } .it { color:#ffd479; } .act { color:var(--teal); }
+</style></head><body>
+<div class="stars"><span style="left:60px;top:60px;opacity:0.6"></span><span style="left:240px;top:30px;opacity:0.4"></span><span style="left:520px;top:90px;opacity:0.5"></span><span style="left:610px;top:20px;opacity:0.3"></span><span style="left:930px;top:28px;opacity:0.5"></span><span style="left:1190px;top:40px;opacity:0.6"></span><span style="left:1230px;top:300px;opacity:0.4"></span><span style="left:34px;top:420px;opacity:0.4"></span><span style="left:480px;top:600px;opacity:0.5"></span><span style="left:700px;top:610px;opacity:0.4"></span><span style="left:1120px;top:610px;opacity:0.5"></span></div>
+<div class="left">
+  <h1>witchctl</h1>
+  <p class="sub">魔女：终末旅途，<br>从终端里玩。<b>&lt; 150 ms</b> 端到端。</p>
+  <div class="chips"><i>in-game mod</i><i>loopback HTTP</i><i>stdlib CLI</i></div>
+</div>
+<div class="term">
+  <div class="bar"><i></i><i></i><i></i><span>witchctl state</span></div>
+  <pre><span class="prompt">$</span> witchctl state
+<span class="k">phase:</span> battle  (frame 20325)
+<span class="k">player:</span>  阿米莉娅 HP 139/144 DEF 0 buffs: 报丧偈羽×1, 坚毅×2, 元素×3, 自愈×3, 超凡×6 | power 2/3 | draw 11 discard 1
+<span class="k">enemies:</span>
+  [0] 腐化主教 HP 81/92 DEF 0 buffs: 返本归源×1, 灼烧×2
+      <span class="it">intends:</span> 蓄势 — 正在进行蓄力。
+      <span class="it">intends:</span> 蹈火之域：二阶 — 给与对方4层灼烧。
+<span class="k">hand:</span>
+  [0] <span class="ok">✓</span> 魔能屏障 (card_2) cost 1 技能牌 [Retain] — 获得5点护盾。 保留
+  [1] <span class="ok">✓</span> 冥想针剂 (card_3) cost 0 消耗技能牌 [Burnout] — 抽2张卡牌, 焚毁
+  [2] <span class="ok">✓</span> 法杖敲头 (card_1) cost 1 攻击牌 — 造成5点伤害。
+<span class="k">flow:</span>    Player canAct=True animating=True
+<span class="k">actions:</span>
+  <span class="act">battle_end_turn</span>  结束回合
+  <span class="act">battle_play_card_0</span>  魔能屏障 {&quot;cardIndex&quot;: 0, &quot;cardId&quot;: &quot;card_2&quot;, &quot;requiresTarget&quot;: false}</pre>
+</div>
+</body></html>

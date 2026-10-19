@@ -1,0 +1,9 @@
+{
+  "ModName": "WitchCtl",
+  "ModVersion": "0.1",
+  "ModAuthor": "local",
+  "ModDescription": "Local CLI bridge",
+  "IconPath": "Icon.png",
+  "Enabled": true,
+  "Dependencies": null
+}

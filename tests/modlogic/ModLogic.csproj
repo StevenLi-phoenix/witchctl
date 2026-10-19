@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Plain-logic parts of the mod (no Unity types) compiled on their own, so they can be tested without the game. Run by tests/test_modlogic.py. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>WitchCtl</RootNamespace>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="../../mod/Danger.cs" />
+    <Compile Include="../../mod/DeckRules.cs" />
+    <Compile Include="../../mod/EntryRules.cs" />
+    <Compile Include="../../mod/HouseRules.cs" />
+    <Compile Include="../../mod/MapRules.cs" />
+    <Compile Include="../../mod/OutsiderRules.cs" />
+    <Compile Include="../../mod/ShopRules.cs" />
+    <Compile Include="../../mod/SkillRules.cs" />
+    <Compile Include="../../mod/TargetRules.cs" />
+  </ItemGroup>
+</Project>

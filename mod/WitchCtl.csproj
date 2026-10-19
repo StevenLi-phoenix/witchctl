@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <RootNamespace>WitchCtl</RootNamespace>
+    <!-- must equal ModName.ModAuthor from ModConfig.json (the game loads Scripts/Entry.dll by path) -->
+    <AssemblyName>WitchCtl.local</AssemblyName>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+    <GenerateDocumentationFile>False</GenerateDocumentationFile>
+    <DebugType>embedded</DebugType>
+    <!-- read-only reference to the game's managed assemblies; override with -p:DllPath=... -->
+    <DllPath Condition="'$(DllPath)' == ''">$(HOME)/Library/Application Support/Steam/steamapps/common/Witch's Apocalyptic Journey/Witch's Apocalyptic Journey.app/Contents/Resources/Data/Managed</DllPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="UnityEngine.CoreModule"><HintPath>$(DllPath)/UnityEngine.CoreModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.Physics2DModule"><HintPath>$(DllPath)/UnityEngine.Physics2DModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.PhysicsModule"><HintPath>$(DllPath)/UnityEngine.PhysicsModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.AudioModule"><HintPath>$(DllPath)/UnityEngine.AudioModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Witch"><HintPath>$(DllPath)/Witch.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Witch.Core"><HintPath>$(DllPath)/Witch.Core.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.UI"><HintPath>$(DllPath)/UnityEngine.UI.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Unity.TextMeshPro"><HintPath>$(DllPath)/Unity.TextMeshPro.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.UIModule"><HintPath>$(DllPath)/UnityEngine.UIModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Plugins"><HintPath>$(DllPath)/Plugins.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="MemoryPack.Core"><HintPath>$(DllPath)/MemoryPack.Core.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Loxodon.Framework.Obfuscation"><HintPath>$(DllPath)/Loxodon.Framework.Obfuscation.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Mirror"><HintPath>$(DllPath)/Mirror.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Newtonsoft.Json"><HintPath>$(DllPath)/Newtonsoft.Json.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UniTask"><HintPath>$(DllPath)/UniTask.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+
+</Project>
