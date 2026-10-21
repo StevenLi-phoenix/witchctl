@@ -1,10 +1,12 @@
 import json
 import os
+import subprocess
+import sys
 import tempfile
 import time
 import unittest
 
-from tests.support import BATTLE_STATE, CARD_CHOICE_STATE, REWARDS_STATE, FakeBridge, run_cli
+from tests.support import BATTLE_STATE, CARD_CHOICE_STATE, CLI, REWARDS_STATE, FakeBridge, run_cli
 
 
 class CliAgainstFakeBridge(unittest.TestCase):
@@ -585,6 +587,49 @@ class Recon(unittest.TestCase):
         self.assertEqual(len(self.bridge.requests), before + 1)   # only the /state read that names the screen
         self.recon("--force")
         self.assertGreater(len(self.bridge.requests), before + 1)
+
+
+class McpServer(unittest.TestCase):
+    """`witchctl mcp`: newline-delimited JSON-RPC on stdio, the CLI's commands as tools."""
+
+    def setUp(self):
+        self.bridge = FakeBridge({("GET", "/state"): BATTLE_STATE,
+                                  ("POST", "/act"): lambda body: {"Success": body.get("ActionId") == "battle_end_turn", "Message": "ok"}})
+        self.addCleanup(self.bridge.close)
+        self.p = subprocess.Popen([sys.executable, "-I", str(CLI), "mcp", "--port", str(self.bridge.port)],
+                                  stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+
+    def tearDown(self):
+        self.p.kill()
+        self.p.communicate()
+        self.p.stderr.close()
+
+    def send(self, msg):
+        self.p.stdin.write(json.dumps(msg) + "\n")
+        self.p.stdin.flush()
+        return json.loads(self.p.stdout.readline())
+
+    def test_initialize_lists_the_tools(self):
+        r = self.send({"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {"protocolVersion": "2024-11-05"}})
+        self.assertEqual(r["result"]["serverInfo"]["name"], "witchctl")
+        r = self.send({"jsonrpc": "2.0", "id": 2, "method": "tools/list"})
+        self.assertEqual({t["name"] for t in r["result"]["tools"]}, {"state", "act", "play", "ui", "click", "wait", "raw"})
+
+    def test_state_returns_the_compact_text(self):
+        r = self.send({"jsonrpc": "2.0", "id": 1, "method": "tools/call", "params": {"name": "state", "arguments": {}}})
+        self.assertFalse(r["result"]["isError"])
+        self.assertIn("phase: battle", r["result"]["content"][0]["text"])
+
+    def test_refused_action_is_an_error_result_not_a_dead_server(self):
+        r = self.send({"jsonrpc": "2.0", "id": 1, "method": "tools/call", "params": {"name": "act", "arguments": {"action_id": "nope"}}})
+        self.assertTrue(r["result"]["isError"])
+        self.assertIn("refused", r["result"]["content"][0]["text"])
+
+    def test_unknown_tool_is_an_error_and_notifications_stay_silent(self):
+        self.assertIn("error", self.send({"jsonrpc": "2.0", "id": 1, "method": "tools/call", "params": {"name": "nope"}}))
+        self.p.stdin.write(json.dumps({"jsonrpc": "2.0", "method": "notifications/initialized"}) + "\n")
+        self.p.stdin.flush()
+        self.assertEqual(self.send({"jsonrpc": "2.0", "id": 2, "method": "ping"})["result"], {})
 
 
 if __name__ == "__main__":

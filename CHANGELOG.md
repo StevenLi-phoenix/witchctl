@@ -5,6 +5,8 @@ All notable changes to this project are documented here. Format: [Keep a Changel
 ## [Unreleased]
 
 ### Added
+- `witchctl mcp`: an MCP server on stdio (JSON-RPC, one message per line, stdlib only) exposing `state`, `act`, `play`, `ui`, `click`, `wait`
+  and `raw` as tools; tool descriptions and results are the CLI's compact text to save tokens. `tests/test_cli.py`.
 - **A whole classic run won hands-free** (2026-10-19, 奈奈 with the doom-power engine, `scripts/nana/run.sh`; see CLAUDE.md traps 38–40): `GET /config?table=…&match=…` (`mod/ConfigDump.cs`, the game's config rows with their
   scripts), `POST /speed` + `witchctl speed N`, `witchctl click --right`, the floating menu (card editor, safe box) in `ui` / `click`, the rest room's `rest_safebox` action, the card editor and the safe box
   (`CardEditor` allowed in the hub; the card is crafted with `scripts/nana/craft_feast.py` and taken into the run with `scripts/nana/safebox.py`).

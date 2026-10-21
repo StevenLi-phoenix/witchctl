@@ -40,6 +40,7 @@ $ witchctl wait --phase rewards --wait-timeout 30
 | `wait [--phase P] [--action A] [--text T] [--idle]` | poll until true; exit 1 on timeout |
 | `audio on\|off` | global mute switch |
 | `raw METHOD PATH [JSON]` | anything else, e.g. `raw GET /debug`, or `raw GET '/world?root=Breaks&depth=5'` (world objects of a scene that is not a window) |
+| `mcp` | MCP server on stdio: `state`, `act`, `play`, `ui`, `click`, `wait`, `raw` as tools for agent clients |
 
 Global flags work before or after the subcommand: `--json`, `--timing` (wall/hop/exec ms on stderr), `--port`, `--timeout`.
 Exit codes: `0` ok · `1` the game refused / condition not met / timeout · `2` bridge unreachable or bad usage.
@@ -88,6 +89,16 @@ only `card_choice_skip` is left.
 
 `canAct` is false while cards are still being dealt, while a card asks for a choice and while the end-turn button is hidden. A fight can
 be scripted (`flow.fake`): the player is then revived at full HP instead of losing.
+
+## MCP
+
+`witchctl mcp` speaks newline-delimited JSON-RPC on stdin/stdout and exposes seven tools that take the same arguments as the
+commands above (`state`, `act`, `play`, `ui`, `click`, `wait`, `raw`); results are the compact text, so a client spends tokens on
+the game, not on JSON. `--port` and `WITCHCTL_PORT` still apply.
+
+```json
+{"mcpServers": {"witchctl": {"command": "/Users/you/Codes/witchctl/cli/witchctl", "args": ["mcp"]}}}
+```
 
 ## Example agent
 

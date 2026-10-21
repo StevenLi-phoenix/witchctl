@@ -20,7 +20,8 @@ accounts yourself. `eqckd` = persona name of the user's alt Steam account (see t
   `Achievements` (the achievements window), `OutsiderShop` (the hub's meta shops; `Hub` also opens the seven book pages), `SlotMode` (Chaos Paradise: phase `slot`, action `slot_end_run`), `ConfigDump` (`GET /config?table=Enemy&match=…`: whole rows of the game's config tables, scripts included).
   **`Entry` is the mod's entry point** (`[ModInitialize]` + `Audio`), not the before-a-run screen: check `ls mod/` before creating a file (it was overwritten once).
   Unity-free logic lives in `*Rules.cs` (`DeckRules ShopRules SkillRules TargetRules EntryRules MapRules HouseRules OutsiderRules`, plus `Danger`) and is tested by `tests/modlogic`.
-- `cli/witchctl` stdlib-only Python, raw-socket HTTP (http.client import costs 11 ms), shebang `python3 -I -S`.
+- `cli/witchctl` stdlib-only Python, raw-socket HTTP (http.client import costs 11 ms), shebang `python3 -I -S`. `witchctl mcp` serves the
+  bridge as an MCP server on stdio (seven tools, compact text results).
 - `examples/greedy.py` agent that plays menus → fights → rewards → map using only the CLI (smoke test + template).
 - `scripts/steam-whoami.py` which Steam account the client is on (live session from `logs/connection_log.txt`, else `registry.vdf`
   AutoLoginUser; names from `config/loginusers.vdf`). File-based on purpose: a Steamworks `SteamAPI_Init` would make the caller count as a running game.
@@ -39,7 +40,7 @@ accounts yourself. `eqckd` = persona name of the user's alt Steam account (see t
   `…/MeowAlive/Witch's Apocalyptic Journey/SaveData` (`Watching 0 files`; Steam also *moves* the previous user's cloud files out of that folder on an account switch).
   Procedure the user prescribed and that held: launch through Steam (`open -g steam://rungameid/3709430`, pre-launch sync runs) → copy the file over while the game runs →
   `kill` the game (SIGTERM; the game rewrites `SaveData.sav` at startup, a quit would not matter after the kill) → compare hashes. Back up the old file beside it first.
-- Tests: `python3 -I -m unittest discover -s tests -t . -p 'test_cli.py'` (fake bridge, 51 tests); `-p 'test_steam_whoami.py'` (fake Steam folder, 10 tests); `-p 'test_greedy.py'` (bot policy, 48 tests);
+- Tests: `python3 -I -m unittest discover -s tests -t . -p 'test_cli.py'` (fake bridge, 58 tests); `-p 'test_steam_whoami.py'` (fake Steam folder, 10 tests); `-p 'test_greedy.py'` (bot policy, 48 tests);
   `-p 'test_modlogic.py'` (the Unity-free C# logic compiled and run by `tests/modlogic` with the local .NET SDK); `-p 'test_live.py'` (real game; the
   play test needs `WITCHCTL_E2E_PLAY=1` and a fresh profile: `lab.sh reset`).
 - `witchctl recon` / `greedy.py --recon`: dump every new screen (state, UI, world with button wiring) into `.recon/` (ignored). Read it before guessing a path.

@@ -467,6 +467,144 @@ def wait_satisfied(b, state, a):
     return True
 
 
+# ---------------------------------------------------------------- mcp
+
+MCP_PROTOCOL = "2024-11-05"
+
+
+def _obj(props, required=()):
+    return {"type": "object", "properties": props, "required": list(required), "additionalProperties": False}
+
+
+MCP_TOOLS = [
+    {"name": "state", "description": "Phase, legal actions, battle (player/enemies/hand). Call first.",
+     "inputSchema": _obj({"full": {"type": "boolean", "description": "raw config rows"}})},
+    {"name": "act", "description": "Perform a legal action id from state.",
+     "inputSchema": _obj({"action_id": {"type": "string"}}, ["action_id"])},
+    {"name": "play", "description": "Play a hand card by index (shifts) or uid (stable).",
+     "inputSchema": _obj({"index": {"type": "integer"}, "uid": {"type": "string"}, "target": {"type": "integer", "description": "enemy index"},
+                          "self": {"type": "boolean"}, "wait": {"type": "boolean", "description": "answer after it resolves"}})},
+    {"name": "ui", "description": "Active windows: clickable items and texts.", "inputSchema": _obj({})},
+    {"name": "click", "description": "Click a UI item by id, exact label, or path.",
+     "inputSchema": _obj({"target": {"type": "string"}, "path": {"type": "string"}, "right": {"type": "boolean"}})},
+    {"name": "wait", "description": "Poll until a condition holds; error on timeout.",
+     "inputSchema": _obj({"phase": {"type": "string"}, "action": {"type": "string"}, "text": {"type": "string"},
+                          "idle": {"type": "boolean"}, "timeout": {"type": "number", "description": "seconds (30)"}})},
+    {"name": "raw", "description": "Arbitrary bridge request, e.g. GET /config?table=Card, POST /speed.",
+     "inputSchema": _obj({"method": {"type": "string"}, "path": {"type": "string"}, "body": {}}, ["method", "path"])},
+]
+
+
+def _tool_show(data, render):
+    if "error" in data:
+        return f"error: {data['error']}: {data.get('message', '')}", True
+    return (json.dumps(data, ensure_ascii=False) if render is None else render(data)), not ok_of(data)
+
+
+def _tool_state(b, a):
+    return _tool_show(b.call("GET", "/state?full=1" if a.get("full") else "/state"), render_state)
+
+
+def _tool_act(b, a):
+    return _tool_show(b.call("POST", "/act", {"ActionId": a["action_id"]}), lambda d: verdict(d.get("Success"), d.get("Message")))
+
+
+def _tool_play(b, a):
+    return _tool_show(*cmd_play(b, argparse.Namespace(index=a.get("index"), uid=a.get("uid"), target=a.get("target"),
+                                                     self_target=bool(a.get("self")), wait=bool(a.get("wait")))))
+
+
+def _tool_ui(b, a):
+    return _tool_show(b.call("GET", "/ui"), render_ui)
+
+
+def _tool_click(b, a):
+    return _tool_show(*cmd_click(b, argparse.Namespace(target=str(a.get("target") or ""), path=a.get("path"), right=bool(a.get("right")))))
+
+
+def _tool_wait(b, a):
+    return _tool_show(*cmd_wait(b, argparse.Namespace(phase=a.get("phase"), action=a.get("action"), text=a.get("text"),
+                                                     idle=bool(a.get("idle")), wait_timeout=float(a.get("timeout") or 30), interval=50.0)))
+
+
+def _tool_raw(b, a):
+    body = a.get("body")
+    return _tool_show(*cmd_raw(b, argparse.Namespace(method=a["method"], path=a["path"],
+                                                    body=json.dumps(body) if body is not None else None)))
+
+
+MCP_HANDLERS = {"state": _tool_state, "act": _tool_act, "play": _tool_play, "ui": _tool_ui,
+                "click": _tool_click, "wait": _tool_wait, "raw": _tool_raw}
+
+
+def mcp_tool(bridge, name, arguments):
+    """Call one tool; bridge failures become error results, never a dead server."""
+    fn = MCP_HANDLERS.get(name)
+    if fn is None:
+        return None
+    try:
+        text, bad = fn(bridge, arguments)
+    except (BridgeDown, UsageError) as e:
+        text, bad = str(e), True
+    except BridgeTimeout as e:
+        text, bad = f"timeout: {e}", True
+    except (TypeError, ValueError, KeyError) as e:
+        text, bad = f"bad arguments: {e}", True
+    except Exception as e:   # a tool bug must not take the server down
+        text, bad = f"{e.__class__.__name__}: {e}", True
+    return {"content": [{"type": "text", "text": text}], "isError": bad}
+
+
+def mcp_reply(msg, bridge):
+    """One JSON-RPC message -> a response, or None (notification / no id)."""
+    if not isinstance(msg, dict):
+        return {"jsonrpc": "2.0", "id": None, "error": {"code": -32600, "message": "invalid request"}}
+    ident, method, params = msg.get("id"), msg.get("method"), msg.get("params") or {}
+    out = {"jsonrpc": "2.0", "id": ident}
+    if method == "initialize":
+        out["result"] = {"protocolVersion": MCP_PROTOCOL, "capabilities": {"tools": {}},
+                         "serverInfo": {"name": "witchctl", "version": "0.1.0"},
+                         "instructions": "Drive 魔女：终末旅途. Call state first; act ids carry what is legal."}
+    elif method == "ping":
+        out["result"] = {}
+    elif method == "tools/list":
+        out["result"] = {"tools": MCP_TOOLS}
+    elif method == "tools/call":
+        result = mcp_tool(bridge, params.get("name"), params.get("arguments") or {})
+        if result is None:
+            out["error"] = {"code": -32602, "message": f"unknown tool: {params.get('name')}"}
+        else:
+            out["result"] = result
+    elif method and method.startswith("notifications/"):
+        return None
+    else:
+        out["error"] = {"code": -32601, "message": f"method not found: {method}"}
+    return None if ident is None else out
+
+
+def run_mcp(bridge, args):
+    """Newline-delimited JSON-RPC on stdin/stdout; nothing else may be printed there."""
+    for stream in (sys.stdin, sys.stdout):
+        try:
+            stream.reconfigure(encoding="utf-8")
+        except (AttributeError, ValueError):
+            pass
+    for line in sys.stdin:
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            msg = json.loads(line)
+        except ValueError as e:
+            replies = [{"jsonrpc": "2.0", "id": None, "error": {"code": -32700, "message": f"parse error: {e}"}}]
+        else:
+            replies = [r for r in (mcp_reply(m, bridge) for m in (msg if isinstance(msg, list) else [msg])) if r]
+        for reply in replies:
+            sys.stdout.write(json.dumps(reply, ensure_ascii=False, separators=(",", ":")) + "\n")
+        sys.stdout.flush()
+    return 0
+
+
 def build_parser():
     # Global options are accepted both before and after the subcommand; SUPPRESS keeps the
     # subparser from overwriting a value given earlier on the command line.
@@ -496,6 +634,7 @@ def build_parser():
     s = sub.add_parser("audio", help="game audio on/off (the lab launches the game muted)"); s.add_argument("mode", choices=["on", "off"]); s.set_defaults(fn=cmd_audio)
     s = sub.add_parser("speed", help="the game's clock (Time.timeScale; animations and waits run faster, clamped to 0.25-4): `speed 3`, `speed 1` to restore, no argument reads it"); s.add_argument("scale", type=float, nargs="?"); s.set_defaults(fn=cmd_speed)
     s = sub.add_parser("raw", help="send an arbitrary request"); s.add_argument("method"); s.add_argument("path"); s.add_argument("body", nargs="?"); s.set_defaults(fn=cmd_raw)
+    sub.add_parser("mcp", help="MCP server on stdio (tools: state act play ui click wait raw), for agent clients").set_defaults(fn=None)
     s = sub.add_parser("wait", help="block until a condition holds (exit 1 on timeout)")
     s.add_argument("--phase"); s.add_argument("--action", help="a legal action id/kind is present")
     s.add_argument("--text", help="substring visible in the UI"); s.add_argument("--idle", action="store_true", help="battle animations finished")
@@ -510,6 +649,8 @@ def main(argv=None):
         print("click needs an id, a label, or --path", file=sys.stderr)
         return 2
     bridge = Bridge(args.port, args.timeout)
+    if args.cmd == "mcp":
+        return run_mcp(bridge, args)
     try:
         data, render = args.fn(bridge, args)
     except (BridgeDown, UsageError) as e:
